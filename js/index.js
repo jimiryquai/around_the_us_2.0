@@ -14,27 +14,19 @@ const popupToggle = () => {
 };
 
 const editFormLoadHandler = () => {
+  popupToggle();
   formInputName.value = profileName.textContent;
   formInputJob.value = profileJob.textContent;
 };
 
 const editFormSubmitHandler = e => {
   e.preventDefault();
-  formInputName.value = profileName.textContent;
-  formInputJob.value = profileJob.textContent;
+  profileName.textContent = formInputName.value;
+  profileJob.textContent == formInputJob.value;
+  popupToggle();
 };
 
 // Event listeners
-buttonEdit.addEventListener('click', () => {
-  popupToggle();
-  editFormLoadHandler();
-});
-
-popupClose.addEventListener('click', () => {
-  popupToggle();
-});
-
-formEdit.addEventListener('submit', () => {
-  editFormSubmitHandler();
-  popupToggle();
-});
+buttonEdit.addEventListener('click', editFormLoadHandler);
+popupClose.addEventListener('click', popupToggle);
+formEdit.addEventListener('submit', editFormSubmitHandler);
