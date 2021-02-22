@@ -18,7 +18,8 @@ const editFormLoadHandler = () => {
   formInputJob.value = profileJob.textContent;
 };
 
-const editFormSubmitHandler = () => {
+const editFormSubmitHandler = e => {
+  e.preventDefault();
   formInputName.value = profileName.textContent;
   formInputJob.value = profileJob.textContent;
 };
@@ -33,8 +34,7 @@ popupClose.addEventListener('click', () => {
   popupToggle();
 });
 
-formEdit.addEventListener('submit', e => {
-  e.preventDefault();
+formEdit.addEventListener('submit', () => {
   editFormSubmitHandler();
   popupToggle();
 });
