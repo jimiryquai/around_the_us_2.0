@@ -1,0 +1,14 @@
+@import url('./_type/popup__modal_type_image.css');
+@import url('./_type/popup__modal_type_form.css');
+
+.popup__modal {
+    position: relative;
+    opacity: 1;
+    -webkit-transition: all .5s .2s;
+    transition: all .5s .2s;
+  }
+
+.popup_modal:target {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}

@@ -1,0 +1,7 @@
+@import url('./__img/avatar__img.css');
+
+@media (min-width: 50em) {
+    .avatar {
+        margin-right: 1.875rem;
+    }
+}

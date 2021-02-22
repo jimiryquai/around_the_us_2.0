@@ -1,0 +1,12 @@
+.button_trash {
+        border: none;
+        width: 1.125rem;
+        height: 1.125rem;
+        align-self: flex-end;
+        background: url('../../../images/trash.svg') .46875rem no-repeat;
+        background-position: center;
+        z-index: 2;
+        position: absolute;
+        top: 1.125rem;
+        right: 1rem;
+}
