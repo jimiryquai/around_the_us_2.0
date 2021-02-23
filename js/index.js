@@ -1,5 +1,5 @@
 'use strict';
-// Selectors
+// Selector variables
 const buttonEdit = document.querySelector('.button_edit');
 const popupOverlay = document.querySelector('.popup');
 const popupClose = document.querySelector('.popup__close');
@@ -9,12 +9,12 @@ const formInputName = document.querySelector('.form__input_name');
 const formInputJob = document.querySelector('.form__input_job');
 const formEdit = document.querySelector('.form_type_edit');
 
+// Reusable functions
 const popupToggle = () => {
   popupOverlay.classList.toggle('popup_opened');
 };
 
 const editFormLoadHandler = () => {
-  popupToggle();
   formInputName.value = profileName.textContent;
   formInputJob.value = profileJob.textContent;
 };
@@ -23,10 +23,11 @@ const editFormSubmitHandler = e => {
   e.preventDefault();
   profileName.textContent = formInputName.value;
   profileJob.textContent == formInputJob.value;
-  popupToggle();
 };
 
 // Event listeners
+buttonEdit.addEventListener('click', popupToggle);
 buttonEdit.addEventListener('click', editFormLoadHandler);
-popupClose.addEventListener('click', popupToggle);
 formEdit.addEventListener('submit', editFormSubmitHandler);
+formEdit.addEventListener('submit', popupToggle);
+popupClose.addEventListener('click', popupToggle);
