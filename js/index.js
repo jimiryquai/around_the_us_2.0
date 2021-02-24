@@ -1,8 +1,10 @@
 'use strict';
 // Selector variables
 const buttonEdit = document.querySelector('.button_edit');
-const popupOverlay = document.querySelector('.popup');
-const popupClose = document.querySelector('.popup__close');
+const buttonAdd = document.querySelector('.button_add');
+const popupEdit = document.querySelector('.popup_type_edit');
+const popupAdd = document.querySelector('.popup_type_add');
+const popupsClose = document.querySelectorAll('.popup__close');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 const formInputName = document.querySelector('.form__input_name');
@@ -54,7 +56,7 @@ const renderCard = card => cardsContainer.prepend(createCard(card));
 
 initialCards.forEach(card => renderCard(card));
 
-const popupToggle = () => popupOverlay.classList.toggle('popup_opened');
+const popupToggle = popup => popup.classList.toggle('popup_opened');
 
 const editFormLoadHandler = () => {
   formInputName.value = profileName.textContent;
@@ -68,8 +70,28 @@ const editFormSubmitHandler = e => {
 };
 
 // Event listeners
-buttonEdit.addEventListener('click', popupToggle);
+// Popup toggling
+buttonEdit.addEventListener('click', () => {
+  popupToggle(popupEdit);
+});
+
+buttonAdd.addEventListener('click', () => {
+  popupToggle(popupAdd);
+});
+
+formEdit.addEventListener('submit', () => {
+  popupToggle(popupEdit);
+});
+
+popupsClose.forEach(popup => {
+  popup.addEventListener('click', e => {
+    e.target.classList.contains('popup__close_type_edit') &&
+    !e.target.classList.contains('popup__close_type_image')
+      ? popupToggle(popupEdit)
+      : popupToggle(popupAdd);
+  });
+});
+
+// Form handling
 buttonEdit.addEventListener('click', editFormLoadHandler);
 formEdit.addEventListener('submit', editFormSubmitHandler);
-formEdit.addEventListener('submit', popupToggle);
-popupClose.addEventListener('click', popupToggle);
