@@ -50,15 +50,11 @@ const createCard = card => {
   return cardElement;
 };
 
-const renderCard = card => {
-  cardsContainer.prepend(createCard(card));
-};
+const renderCard = card => cardsContainer.prepend(createCard(card));
 
 initialCards.forEach(card => renderCard(card));
 
-const popupToggle = () => {
-  popupOverlay.classList.toggle('popup_opened');
-};
+const popupToggle = () => popupOverlay.classList.toggle('popup_opened');
 
 const editFormLoadHandler = () => {
   formInputName.value = profileName.textContent;
