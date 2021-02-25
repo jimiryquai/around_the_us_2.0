@@ -124,10 +124,13 @@ buttonAdd.addEventListener('click', () => {
 
 formAdd.addEventListener('submit', () => {
   popupToggle(popupAdd);
+<<<<<<< HEAD
 });
 
 popupEditClose.addEventListener('click', () => {
   popupToggle(popupEdit);
+=======
+>>>>>>> afc912b19e2f2d226146a9315531f633f1a65b61
 });
 
 popupAddClose.addEventListener('click', () => {
