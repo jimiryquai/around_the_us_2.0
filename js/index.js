@@ -9,7 +9,10 @@ const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 const formInputName = document.querySelector('.form__input_name');
 const formInputJob = document.querySelector('.form__input_job');
+const formInputTitle = document.querySelector('.form__input_title');
+const formInputUrl = document.querySelector('.form__input_url');
 const formEdit = document.querySelector('.form_type_edit');
+const formAdd = document.querySelector('.form_type_add');
 const cardsContainer = document.querySelector('.cards');
 const cardTemplate = document.querySelector('.card-template').content;
 
@@ -69,6 +72,18 @@ const editFormSubmitHandler = e => {
   profileJob.textContent == formInputJob.value;
 };
 
+const addFormSubmitHandler = e => {
+  e.preventDefault();
+  // Get values from form inputs
+  const title = formInputTitle.value;
+  const url = formInputUrl.value;
+  // create an object that mimics initialCards structure
+  // assign form values to relevant keys
+  // pass object into renderCard function
+  renderCard({ name: title, link: url });
+  formAdd.reset();
+};
+
 // Event listeners
 // Popup toggling
 buttonEdit.addEventListener('click', () => {
@@ -79,8 +94,8 @@ buttonAdd.addEventListener('click', () => {
   popupToggle(popupAdd);
 });
 
-formEdit.addEventListener('submit', () => {
-  popupToggle(popupEdit);
+formAdd.addEventListener('submit', () => {
+  popupToggle(popupAdd);
 });
 
 popupsClose.forEach(popup => {
@@ -95,3 +110,4 @@ popupsClose.forEach(popup => {
 // Form handling
 buttonEdit.addEventListener('click', editFormLoadHandler);
 formEdit.addEventListener('submit', editFormSubmitHandler);
+formAdd.addEventListener('submit', addFormSubmitHandler);
