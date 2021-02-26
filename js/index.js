@@ -79,7 +79,7 @@ const createCard = card => {
 
 const renderCard = card => cardsContainer.prepend(createCard(card));
 
-initialCards.forEach(card => renderCard(card));
+initialCards.forEach(element => renderCard(element));
 
 const popupToggle = popup => popup.classList.toggle('popup_opened');
 
