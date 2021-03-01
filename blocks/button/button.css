@@ -3,13 +3,13 @@
 @import url('./_submit/button_submit.css');
 @import url('./_trash/button_trash.css');
 @import url('./_heart/button_heart.css');
-@import url('./__disabled/button_disabled.css');
+@import url('./_inactive/button_inactive.css');
 
 .button {
-    border-radius: 2px;
-    cursor: pointer;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
 .button:hover {
-    opacity: .6;
+  opacity: 0.6;
 }

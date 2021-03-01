@@ -97,7 +97,7 @@ const editFormLoadHandler = () => {
 const editFormSubmitHandler = e => {
   e.preventDefault();
   profileName.textContent = formInputName.value;
-  profileJob.textContent == formInputJob.value;
+  profileJob.textContent = formInputJob.value;
 };
 
 const addFormSubmitHandler = e => {
@@ -120,6 +120,10 @@ buttonEdit.addEventListener('click', () => {
 
 buttonAdd.addEventListener('click', () => {
   popupToggle(popupAdd);
+});
+
+formEdit.addEventListener('submit', () => {
+  popupToggle(popupEdit);
 });
 
 formAdd.addEventListener('submit', () => {
