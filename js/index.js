@@ -5,9 +5,6 @@ const buttonAdd = document.querySelector('.button_add');
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupAdd = document.querySelector('.popup_type_add');
 const popupImg = document.querySelector('.popup_type_image');
-const popupEditClose = document.querySelector('.popup__close_type_edit');
-const popupAddClose = document.querySelector('.popup__close_type_add');
-const popupImgClose = document.querySelector('.popup__close_type_image');
 const popupFigImg = popupImg.querySelector('.popup__image');
 const popupFigCaption = popupImg.querySelector('.popup__caption');
 const profileName = document.querySelector('.profile__name');
@@ -81,8 +78,6 @@ const renderCard = card => cardsContainer.prepend(createCard(card));
 
 initialCards.forEach(element => renderCard(element));
 
-const popupToggle = popup => popup.classList.toggle('popup_opened');
-
 const renderPopupImg = e => {
   popupFigImg.src = e.target.src;
   popupFigImg.alt = e.target.alt;
@@ -94,14 +89,12 @@ const editFormLoadHandler = () => {
   formInputJob.value = profileJob.textContent;
 };
 
-const editFormSubmitHandler = e => {
-  e.preventDefault();
+const editFormSubmitHandler = () => {
   profileName.textContent = formInputName.value;
-  profileJob.textContent = formInputJob.value;
+  profileJob.textContent == formInputJob.value;
 };
 
-const addFormSubmitHandler = e => {
-  e.preventDefault();
+const addFormSubmitHandler = () => {
   // Get values from form inputs
   const title = formInputTitle.value;
   const url = formInputUrl.value;
@@ -111,6 +104,55 @@ const addFormSubmitHandler = e => {
   renderCard({ name: title, link: url });
   formAdd.reset();
 };
+
+function popupToggle(popup) {
+  popup.classList.toggle('popup_opened');
+  console.log(popup);
+
+  // const popupList = document.querySelectorAll('.popup');
+  // popupList.forEach(popupElement => {
+  //   popupElement.addEventListener('click', e => {
+  //     if (e.target.classList.contains('popup__close_type_edit')) {
+  //       popupToggle(popup);
+  //     } else if (e.target.classList.contains('popup__close_type_add')) {
+  //       popupToggle(popup);
+  //     } else if (e.target.classList.contains('popup__close_type_image')) {
+  //       popupToggle(popup);
+  //     }
+  //   });
+  // });
+
+  popup.addEventListener('click', e => {
+    if (e.target.classList.contains('popup')) {
+      popupToggle(popup);
+    }
+  });
+
+  // fires only once - when the user releases the key
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      popupToggle(popup);
+    }
+  });
+
+  popupEdit.addEventListener('click', e => {
+    if (e.target.classList.contains('popup__close_type_edit')) {
+      popupToggle(popup);
+    }
+  });
+
+  popupAdd.addEventListener('click', e => {
+    if (e.target.classList.contains('popup__close_type_add')) {
+      popupToggle(popup);
+    }
+  });
+
+  popupImg.addEventListener('click', e => {
+    if (e.target.classList.contains('popup__close_type_image')) {
+      popupToggle(popup);
+    }
+  });
+}
 
 // Event listeners
 // Popup toggling
@@ -128,18 +170,6 @@ formEdit.addEventListener('submit', () => {
 
 formAdd.addEventListener('submit', () => {
   popupToggle(popupAdd);
-});
-
-popupEditClose.addEventListener('click', () => {
-  popupToggle(popupEdit);
-});
-
-popupAddClose.addEventListener('click', () => {
-  popupToggle(popupAdd);
-});
-
-popupImgClose.addEventListener('click', () => {
-  popupToggle(popupImg);
 });
 
 // Form handling
