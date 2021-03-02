@@ -59,8 +59,8 @@ const createCard = card => {
   cardTitle.textContent = card.name;
 
   cardImage.addEventListener('click', e => {
-    popupImg.classList.toggle('popup_opened');
     renderPopupImg(e);
+    popupToggle(popupImg);
   });
 
   buttonTrash.addEventListener('click', e => {
@@ -107,40 +107,35 @@ const addFormSubmitHandler = () => {
 
 function popupToggle(popup) {
   popup.classList.toggle('popup_opened');
-
+  // closes popup with click on overlay
   popup.addEventListener('click', e => {
     if (e.target.classList.contains('popup_opened')) {
       popupToggle(popup);
     }
   });
-
+  // closes popup with click on overlay
   window.addEventListener('keydown', e => {
     if (e.key === 'Escape' && popup.classList.contains('popup_opened')) {
       popupToggle(popup);
     }
   });
+  // closes popup with click on close button
+  const popupList = document.querySelectorAll('.popup');
+  popupList.forEach(popupElement => {
+    popupElement.addEventListener('click', e => {
+      if (e.target.classList.contains('popup__close_type_edit')) {
+        popupToggle(popupElement);
+      } else if (e.target.classList.contains('popup__close_type_add')) {
+        popupToggle(popupElement);
+      } else if (e.target.classList.contains('popup__close_type_image')) {
+        popupToggle(popupElement);
+      }
+    });
+  });
 }
 
 // Event listeners
 // Popup toggling
-
-popupEdit.addEventListener('click', e => {
-  if (e.target.classList.contains('popup__close_type_edit')) {
-    popupToggle(popupEdit);
-  }
-});
-
-popupAdd.addEventListener('click', e => {
-  if (e.target.classList.contains('popup__close_type_add')) {
-    popupToggle(popupAdd);
-  }
-});
-
-popupImg.addEventListener('click', e => {
-  if (e.target.classList.contains('popup__close_type_image')) {
-    popupToggle(popupImg);
-  }
-});
 
 buttonEdit.addEventListener('click', () => {
   popupToggle(popupEdit);
@@ -162,16 +157,3 @@ formAdd.addEventListener('submit', () => {
 buttonEdit.addEventListener('click', editFormLoadHandler);
 formEdit.addEventListener('submit', editFormSubmitHandler);
 formAdd.addEventListener('submit', addFormSubmitHandler);
-
-// const popupList = document.querySelectorAll('.popup');
-// popupList.forEach(popupElement => {
-//   popupElement.addEventListener('click', e => {
-//     if (e.target.classList.contains('popup__close_type_edit')) {
-//       popupToggle(popupEdit);
-//     } else if (e.target.classList.contains('popup__close_type_add')) {
-//       popupToggle(popupAdd);
-//     } else if (e.target.classList.contains('popup__close_type_image')) {
-//       popupToggle(popupImg);
-//     }
-//   });
-// });
