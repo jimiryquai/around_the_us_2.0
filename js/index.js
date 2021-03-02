@@ -107,48 +107,15 @@ const addFormSubmitHandler = () => {
 
 function popupToggle(popup) {
   popup.classList.toggle('popup_opened');
-  console.log(popup);
-
-  // const popupList = document.querySelectorAll('.popup');
-  // popupList.forEach(popupElement => {
-  //   popupElement.addEventListener('click', e => {
-  //     if (e.target.classList.contains('popup__close_type_edit')) {
-  //       popupToggle(popup);
-  //     } else if (e.target.classList.contains('popup__close_type_add')) {
-  //       popupToggle(popup);
-  //     } else if (e.target.classList.contains('popup__close_type_image')) {
-  //       popupToggle(popup);
-  //     }
-  //   });
-  // });
 
   popup.addEventListener('click', e => {
-    if (e.target.classList.contains('popup')) {
+    if (e.target.classList.contains('popup_opened')) {
       popupToggle(popup);
     }
   });
 
-  // fires only once - when the user releases the key
   window.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      popupToggle(popup);
-    }
-  });
-
-  popupEdit.addEventListener('click', e => {
-    if (e.target.classList.contains('popup__close_type_edit')) {
-      popupToggle(popup);
-    }
-  });
-
-  popupAdd.addEventListener('click', e => {
-    if (e.target.classList.contains('popup__close_type_add')) {
-      popupToggle(popup);
-    }
-  });
-
-  popupImg.addEventListener('click', e => {
-    if (e.target.classList.contains('popup__close_type_image')) {
+    if (e.key === 'Escape' && popup.classList.contains('popup_opened')) {
       popupToggle(popup);
     }
   });
@@ -156,6 +123,25 @@ function popupToggle(popup) {
 
 // Event listeners
 // Popup toggling
+
+popupEdit.addEventListener('click', e => {
+  if (e.target.classList.contains('popup__close_type_edit')) {
+    popupToggle(popupEdit);
+  }
+});
+
+popupAdd.addEventListener('click', e => {
+  if (e.target.classList.contains('popup__close_type_add')) {
+    popupToggle(popupAdd);
+  }
+});
+
+popupImg.addEventListener('click', e => {
+  if (e.target.classList.contains('popup__close_type_image')) {
+    popupToggle(popupImg);
+  }
+});
+
 buttonEdit.addEventListener('click', () => {
   popupToggle(popupEdit);
 });
@@ -176,3 +162,16 @@ formAdd.addEventListener('submit', () => {
 buttonEdit.addEventListener('click', editFormLoadHandler);
 formEdit.addEventListener('submit', editFormSubmitHandler);
 formAdd.addEventListener('submit', addFormSubmitHandler);
+
+// const popupList = document.querySelectorAll('.popup');
+// popupList.forEach(popupElement => {
+//   popupElement.addEventListener('click', e => {
+//     if (e.target.classList.contains('popup__close_type_edit')) {
+//       popupToggle(popupEdit);
+//     } else if (e.target.classList.contains('popup__close_type_add')) {
+//       popupToggle(popupAdd);
+//     } else if (e.target.classList.contains('popup__close_type_image')) {
+//       popupToggle(popupImg);
+//     }
+//   });
+// });
