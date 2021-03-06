@@ -1,5 +1,6 @@
 'use strict';
 import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 // Selector variables
 const buttonEdit = document.querySelector('.button_edit');
 const buttonAdd = document.querySelector('.button_add');
@@ -17,6 +18,29 @@ const formInputTitle = document.querySelector('.form__input_title');
 const formInputUrl = document.querySelector('.form__input_url');
 const formEdit = document.querySelector('.form_type_edit');
 const formAdd = document.querySelector('.form_type_add');
+const formList = Array.from(document.querySelectorAll('.form'));
+
+export const popupConfig = {
+  popupImgElement: document.querySelector('.popup_type_image'),
+  popupImgClose: document.querySelector('.popup__close_type_image'),
+  popupFigImg: document.querySelector('.popup__image'),
+  popupFigCaption: document.querySelector('.popup__caption'),
+  popupOpenedClass: 'popup_opened',
+};
+
+const formConfig = {
+  formElement: '.form',
+  inputElement: '.form__input',
+  buttonElement: '.button_submit',
+  inactiveButtonClass: 'button_inactive',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'form_input-error_active',
+};
+
+formList.forEach(form => {
+  form = new FormValidator(formConfig, formConfig.formElement);
+  form.enableValidation();
+});
 
 // Cards array
 const initialCards = [

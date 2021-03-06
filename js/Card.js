@@ -3,7 +3,9 @@ import {
   popupFigImg,
   popupFigCaption,
   popupImgClose,
+  popupConfig,
 } from './index.js';
+
 export default class Card {
   // the contrustor will store dynamic data,
   // each instance will have its own personal data
@@ -40,14 +42,14 @@ export default class Card {
     popupFigImg.src = this._link;
     popupFigImg.alt = this._name;
     popupFigCaption.textContent = this._name;
-    popupImg.classList.add('popup_opened');
+    popupImg.classList.add(popupConfig.popupOpenedClass);
   }
 
   _handleClosePopup() {
     popupFigImg.src = '';
     popupFigImg.alt = '';
     popupFigCaption.textContent = '';
-    popupImg.classList.remove('popup_opened');
+    popupImg.classList.remove(popupConfig.popupOpenedClass);
   }
 
   _handleDeleteCard() {
