@@ -1,4 +1,5 @@
 'use strict';
+import Card from './Card.js';
 // Selector variables
 const buttonEdit = document.querySelector('.button_edit');
 const buttonAdd = document.querySelector('.button_add');
@@ -15,8 +16,8 @@ const formInputTitle = document.querySelector('.form__input_title');
 const formInputUrl = document.querySelector('.form__input_url');
 const formEdit = document.querySelector('.form_type_edit');
 const formAdd = document.querySelector('.form_type_add');
-const cardsContainer = document.querySelector('.cards');
-const cardTemplate = document.querySelector('.card-template').content;
+// const cardsContainer = document.querySelector('.cards');
+// const cardTemplate = document.querySelector('.card-template').content;
 
 // Cards array
 const initialCards = [
@@ -47,36 +48,13 @@ const initialCards = [
 ];
 
 // Reusable functions
-const createCard = card => {
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  const cardImage = cardElement.querySelector('.card__image');
-  const cardTitle = cardElement.querySelector('.card__title');
-  const buttonTrash = cardElement.querySelector('.button_trash');
-  const buttonHeart = cardElement.querySelector('.button_heart');
-
-  cardImage.src = card.link;
-  cardImage.alt = card.name;
-  cardTitle.textContent = card.name;
-
-  cardImage.addEventListener('click', e => {
-    renderPopupImg(e);
-    popupToggle(popupImg);
-  });
-
-  buttonTrash.addEventListener('click', e => {
-    e.target.parentElement.remove();
-  });
-
-  buttonHeart.addEventListener('click', e => {
-    e.target.classList.toggle('button_heart_liked');
-  });
-
-  return cardElement;
+const renderCard = element => {
+  const card = new Card(element, '.card-template').generateCard();
+  // Add to the DOM
+  document.querySelector('.cards').append(card);
 };
 
-const renderCard = card => cardsContainer.prepend(createCard(card));
-
-initialCards.forEach(element => renderCard(element));
+initialCards.forEach(item => renderCard(item));
 
 const renderPopupImg = e => {
   popupFigImg.src = e.target.src;
