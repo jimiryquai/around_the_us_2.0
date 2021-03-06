@@ -5,9 +5,10 @@ const buttonEdit = document.querySelector('.button_edit');
 const buttonAdd = document.querySelector('.button_add');
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupAdd = document.querySelector('.popup_type_add');
-const popupImg = document.querySelector('.popup_type_image');
-const popupFigImg = popupImg.querySelector('.popup__image');
-const popupFigCaption = popupImg.querySelector('.popup__caption');
+export const popupImg = document.querySelector('.popup_type_image');
+export const popupImgClose = document.querySelector('.popup__close_type_image');
+export const popupFigImg = popupImg.querySelector('.popup__image');
+export const popupFigCaption = popupImg.querySelector('.popup__caption');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 const formInputName = document.querySelector('.form__input_name');
@@ -16,8 +17,6 @@ const formInputTitle = document.querySelector('.form__input_title');
 const formInputUrl = document.querySelector('.form__input_url');
 const formEdit = document.querySelector('.form_type_edit');
 const formAdd = document.querySelector('.form_type_add');
-// const cardsContainer = document.querySelector('.cards');
-// const cardTemplate = document.querySelector('.card-template').content;
 
 // Cards array
 const initialCards = [
@@ -55,12 +54,6 @@ const renderCard = element => {
 };
 
 initialCards.forEach(item => renderCard(item));
-
-const renderPopupImg = e => {
-  popupFigImg.src = e.target.src;
-  popupFigImg.alt = e.target.alt;
-  popupFigCaption.textContent = e.target.alt;
-};
 
 const editFormLoadHandler = () => {
   formInputName.value = profileName.textContent;
@@ -104,8 +97,6 @@ function popupToggle(popup) {
       if (e.target.classList.contains('popup__close_type_edit')) {
         popupToggle(popupElement);
       } else if (e.target.classList.contains('popup__close_type_add')) {
-        popupToggle(popupElement);
-      } else if (e.target.classList.contains('popup__close_type_image')) {
         popupToggle(popupElement);
       }
     });

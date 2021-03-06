@@ -1,3 +1,9 @@
+import {
+  popupImg,
+  popupFigImg,
+  popupFigCaption,
+  popupImgClose,
+} from './index.js';
 export default class Card {
   // the contrustor will store dynamic data,
   // each instance will have its own personal data
@@ -22,25 +28,57 @@ export default class Card {
   generateCard() {
     // public method that returns a fully functional card populated with data
     this._element = this._getTemplate();
-    this._element.querySelector('.card__image').src = this._link;
-    this._element.querySelector('.card__image').alt = this._name;
+    this._image = this._element.querySelector('.card__image');
+    this._image.src = this._link;
+    this._image.alt = this._name;
     this._element.querySelector('.card__title').textContent = this._name;
+    this._setEventListeners();
     return this._element;
   }
 
-  // this._element.querySelector('.button_trash') = this._buttonTrash;
-  // this._element.querySelector('.button_heart') = this.buttonHeart;
+  _handleOpenPopup() {
+    popupFigImg.src = this._link;
+    popupFigImg.alt = this._name;
+    popupFigCaption.textContent = this._name;
+    popupImg.classList.add('popup_opened');
+  }
 
-  //   cardImage.addEventListener('click', e => {
-  //     renderPopupImg(e);
-  //     popupToggle(popupImg);
-  //   });
+  _handleClosePopup() {
+    popupFigImg.src = '';
+    popupFigImg.alt = '';
+    popupFigCaption.textContent = '';
+    popupImg.classList.remove('popup_opened');
+  }
 
-  //   buttonTrash.addEventListener('click', e => {
-  //     e.target.parentElement.remove();
-  //   });
+  _handleDeleteCard() {
+    this._element.remove();
+  }
 
-  //   buttonHeart.addEventListener('click', e => {
-  //     e.target.classList.toggle('button_heart_liked');
-  //   });
+  _handleLikeCard(e) {
+    e.target.classList.toggle('button_heart_liked');
+  }
+
+  _setEventListeners() {
+    this._image.addEventListener('click', () => {
+      // open the popup
+      this._handleOpenPopup();
+    });
+
+    popupImgClose.addEventListener('click', () => {
+      // close the popup
+      this._handleClosePopup();
+    });
+
+    this._element
+      .querySelector('.button_trash')
+      .addEventListener('click', () => {
+        this._handleDeleteCard();
+      });
+
+    this._element
+      .querySelector('.button_heart')
+      .addEventListener('click', e => {
+        this._handleLikeCard(e);
+      });
+  }
 }
