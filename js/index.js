@@ -1,46 +1,48 @@
 'use strict';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
-// Selector variables
-const buttonEdit = document.querySelector('.button_edit');
-const buttonAdd = document.querySelector('.button_add');
-const popupEdit = document.querySelector('.popup_type_edit');
-const popupAdd = document.querySelector('.popup_type_add');
-export const popupImg = document.querySelector('.popup_type_image');
-export const popupImgClose = document.querySelector('.popup__close_type_image');
-export const popupFigImg = popupImg.querySelector('.popup__image');
-export const popupFigCaption = popupImg.querySelector('.popup__caption');
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__job');
-const formInputName = document.querySelector('.form__input_name');
-const formInputJob = document.querySelector('.form__input_job');
-const formInputTitle = document.querySelector('.form__input_title');
-const formInputUrl = document.querySelector('.form__input_url');
-const formEdit = document.querySelector('.form_type_edit');
-const formAdd = document.querySelector('.form_type_add');
-const formList = Array.from(document.querySelectorAll('.form'));
+
+export const cardConfig = {
+  cardElement: '.card',
+  cardTemplateElement: '.card-template',
+  cardContainerElement: '.cards',
+  cardImageElement: '.card__image',
+  cardTitleElement: '.card__title',
+  cardLikeElement: '.button_heart',
+  cardDeleteElement: '.button_trash',
+  cardLikedClass: 'button_heart_liked',
+};
 
 export const popupConfig = {
+  popupElement: '.popup',
   popupImgElement: document.querySelector('.popup_type_image'),
-  popupImgClose: document.querySelector('.popup__close_type_image'),
+  buttonElement: document.querySelector('.popup__close_type_image'),
   popupFigImg: document.querySelector('.popup__image'),
   popupFigCaption: document.querySelector('.popup__caption'),
   popupOpenedClass: 'popup_opened',
+  popupEditCloseClass: 'popup__close_type_edit',
+  popupAddCloseClass: 'popup__close_type_add',
 };
 
-const formConfig = {
+export const formConfig = {
   formElement: '.form',
+  formSetElement: '.form__set',
   inputElement: '.form__input',
   buttonElement: '.button_submit',
   inactiveButtonClass: 'button_inactive',
   inputErrorClass: 'form__input_type_error',
-  errorClass: 'form_input-error_active',
+  errorClass: 'form__input-error_active',
 };
-
-formList.forEach(form => {
-  form = new FormValidator(formConfig, formConfig.formElement);
-  form.enableValidation();
-});
+// validate all forms
+(function () {
+  const formList = Array.from(
+    document.querySelectorAll(formConfig.formElement)
+  );
+  formList.forEach(form => {
+    form = new FormValidator(formConfig, formConfig.formElement);
+    form.enableValidation();
+  });
+})();
 
 // Cards array
 const initialCards = [
@@ -72,81 +74,100 @@ const initialCards = [
 
 // Reusable functions
 const renderCard = element => {
-  const card = new Card(element, '.card-template').generateCard();
+  const card = new Card(element, cardConfig.cardTemplateElement).generateCard();
   // Add to the DOM
-  document.querySelector('.cards').append(card);
+  document.querySelector(cardConfig.cardContainerElement).append(card);
 };
 
 initialCards.forEach(item => renderCard(item));
 
-const editFormLoadHandler = () => {
-  formInputName.value = profileName.textContent;
-  formInputJob.value = profileJob.textContent;
-};
-
-const editFormSubmitHandler = () => {
-  profileName.textContent = formInputName.value;
-  profileJob.textContent == formInputJob.value;
-};
-
-const addFormSubmitHandler = () => {
-  // Get values from form inputs
-  const title = formInputTitle.value;
-  const url = formInputUrl.value;
-  // create an object that mimics initialCards structure
-  // assign form values to relevant keys
-  // pass object into renderCard function
-  renderCard({ name: title, link: url });
-  formAdd.reset();
-};
-
 function popupToggle(popup) {
-  popup.classList.toggle('popup_opened');
+  popup.classList.toggle(popupConfig.popupOpenedClass);
   // closes popup with click on overlay
   popup.addEventListener('click', e => {
-    if (e.target.classList.contains('popup_opened')) {
+    if (e.target.classList.contains(popupConfig.popupOpenedClass)) {
       popupToggle(popup);
     }
   });
   // closes popup with click on overlay
   window.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && popup.classList.contains('popup_opened')) {
+    if (
+      e.key === 'Escape' &&
+      popup.classList.contains(popupConfig.popupOpenedClass)
+    ) {
       popupToggle(popup);
     }
   });
   // closes popup with click on close button
-  const popupList = document.querySelectorAll('.popup');
+  const popupList = document.querySelectorAll(popupConfig.popupElement);
   popupList.forEach(popupElement => {
     popupElement.addEventListener('click', e => {
-      if (e.target.classList.contains('popup__close_type_edit')) {
+      if (e.target.classList.contains(popupConfig.popupEditCloseClass)) {
         popupToggle(popupElement);
-      } else if (e.target.classList.contains('popup__close_type_add')) {
+      } else if (e.target.classList.contains(popupConfig.popupAddCloseClass)) {
         popupToggle(popupElement);
       }
     });
   });
 }
 
-// Event listeners
-// Popup toggling
+// Profile editing
+(function () {
+  const buttonEdit = document.querySelector('.button_edit');
+  const popupEdit = document.querySelector('.popup_type_edit');
+  const profileName = document.querySelector('.profile__name');
+  const profileJob = document.querySelector('.profile__job');
+  const formEdit = document.querySelector('.form_type_edit');
+  const formInputName = document.querySelector('.form__input_name');
+  const formInputJob = document.querySelector('.form__input_job');
 
-buttonEdit.addEventListener('click', () => {
-  popupToggle(popupEdit);
-});
+  const editFormLoadHandler = () => {
+    formInputName.value = profileName.textContent;
+    formInputJob.value = profileJob.textContent;
+  };
 
-buttonAdd.addEventListener('click', () => {
-  popupToggle(popupAdd);
-});
+  const editFormSubmitHandler = () => {
+    profileName.textContent = formInputName.value;
+    profileJob.textContent = formInputJob.value;
+  };
 
-formEdit.addEventListener('submit', () => {
-  popupToggle(popupEdit);
-});
+  buttonEdit.addEventListener('click', () => {
+    popupToggle(popupEdit);
+  });
 
-formAdd.addEventListener('submit', () => {
-  popupToggle(popupAdd);
-});
+  formEdit.addEventListener('submit', () => {
+    popupToggle(popupEdit);
+  });
 
-// Form handling
-buttonEdit.addEventListener('click', editFormLoadHandler);
-formEdit.addEventListener('submit', editFormSubmitHandler);
-formAdd.addEventListener('submit', addFormSubmitHandler);
+  buttonEdit.addEventListener('click', editFormLoadHandler);
+  formEdit.addEventListener('submit', editFormSubmitHandler);
+})();
+
+// Adding cards
+(function () {
+  const buttonAdd = document.querySelector('.button_add');
+  const popupAdd = document.querySelector('.popup_type_add');
+  const formInputTitle = document.querySelector('.form__input_title');
+  const formInputUrl = document.querySelector('.form__input_url');
+  const formAdd = document.querySelector('.form_type_add');
+
+  const addFormSubmitHandler = () => {
+    // Get values from form inputs
+    const title = formInputTitle.value;
+    const url = formInputUrl.value;
+    // create an object that mimics initialCards structure
+    // assign form values to relevant keys
+    // pass object into renderCard function
+    renderCard({ name: title, link: url });
+    formAdd.reset();
+  };
+
+  buttonAdd.addEventListener('click', () => {
+    popupToggle(popupAdd);
+  });
+
+  formAdd.addEventListener('submit', () => {
+    popupToggle(popupAdd);
+  });
+  formAdd.addEventListener('submit', addFormSubmitHandler);
+})();

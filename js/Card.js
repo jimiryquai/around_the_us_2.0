@@ -1,10 +1,4 @@
-import {
-  popupImg,
-  popupFigImg,
-  popupFigCaption,
-  popupImgClose,
-  popupConfig,
-} from './index.js';
+import { popupConfig, cardConfig } from './index.js';
 
 export default class Card {
   // the contrustor will store dynamic data,
@@ -21,7 +15,7 @@ export default class Card {
     // taking the markup from HTML and cloning the element
     const cardElement = document
       .querySelector(this._cardTemplate)
-      .content.querySelector('.card')
+      .content.querySelector(cardConfig.cardElement)
       .cloneNode(true);
     // return the DOM element of the card
     return cardElement;
@@ -30,26 +24,28 @@ export default class Card {
   generateCard() {
     // public method that returns a fully functional card populated with data
     this._element = this._getTemplate();
-    this._image = this._element.querySelector('.card__image');
+    this._image = this._element.querySelector(cardConfig.cardImageElement);
     this._image.src = this._link;
     this._image.alt = this._name;
-    this._element.querySelector('.card__title').textContent = this._name;
+    this._element.querySelector(
+      cardConfig.cardTitleElement
+    ).textContent = this._name;
     this._setEventListeners();
     return this._element;
   }
 
   _handleOpenPopup() {
-    popupFigImg.src = this._link;
-    popupFigImg.alt = this._name;
-    popupFigCaption.textContent = this._name;
-    popupImg.classList.add(popupConfig.popupOpenedClass);
+    popupConfig.popupFigImg.src = this._link;
+    popupConfig.popupFigImg.alt = this._name;
+    popupConfig.popupFigCaption.textContent = this._name;
+    popupConfig.popupImgElement.classList.add(popupConfig.popupOpenedClass);
   }
 
   _handleClosePopup() {
-    popupFigImg.src = '';
-    popupFigImg.alt = '';
-    popupFigCaption.textContent = '';
-    popupImg.classList.remove(popupConfig.popupOpenedClass);
+    popupConfig.popupFigImg.src = '';
+    popupConfig.popupFigImg.alt = '';
+    popupConfig.popupFigCaption.textContent = '';
+    popupConfig.popupImgElement.classList.remove(popupConfig.popupOpenedClass);
   }
 
   _handleDeleteCard() {
@@ -57,7 +53,7 @@ export default class Card {
   }
 
   _handleLikeCard(e) {
-    e.target.classList.toggle('button_heart_liked');
+    e.target.classList.toggle(cardConfig.cardLikedClass);
   }
 
   _setEventListeners() {
@@ -66,19 +62,19 @@ export default class Card {
       this._handleOpenPopup();
     });
 
-    popupImgClose.addEventListener('click', () => {
+    popupConfig.buttonElement.addEventListener('click', () => {
       // close the popup
       this._handleClosePopup();
     });
 
     this._element
-      .querySelector('.button_trash')
+      .querySelector(cardConfig.cardDeleteElement)
       .addEventListener('click', () => {
         this._handleDeleteCard();
       });
 
     this._element
-      .querySelector('.button_heart')
+      .querySelector(cardConfig.cardLikeElement)
       .addEventListener('click', e => {
         this._handleLikeCard(e);
       });

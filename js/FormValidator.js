@@ -1,3 +1,5 @@
+import { formConfig } from './index.js';
+
 export default class FormValidator {
   constructor(config, formElement) {
     // the name and the link are private fields,
@@ -8,15 +10,15 @@ export default class FormValidator {
 
   _showInputError(formElement, inputElement, errorMessage) {
     const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-    inputElement.classList.add('form__input_type_error');
+    inputElement.classList.add(formConfig.inputErrorClass);
     errorElement.textContent = errorMessage;
-    errorElement.classList.add('form__input-error_active');
+    errorElement.classList.add(formConfig.errorClass);
   }
 
   _hideInputError(formElement, inputElement) {
     const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-    inputElement.classList.remove('form__input_type_error');
-    errorElement.classList.remove('form__input-error_active');
+    inputElement.classList.remove(formConfig.inputErrorClass);
+    errorElement.classList.remove(formConfig.errorClass);
     errorElement.textContent = '';
   }
 
@@ -38,15 +40,17 @@ export default class FormValidator {
 
   _toggleButtonState(inputList, buttonElement) {
     if (this._hasInvalidInput(inputList)) {
-      buttonElement.classList.add('button_inactive');
+      buttonElement.classList.add(formConfig.inactiveButtonClass);
     } else {
-      buttonElement.classList.remove('button_inactive');
+      buttonElement.classList.remove(formConfig.inactiveButtonClass);
     }
   }
 
   _setEventListeners(formElement) {
-    const inputList = Array.from(formElement.querySelectorAll('.form__input'));
-    const buttonElement = formElement.querySelector('.button_submit');
+    const inputList = Array.from(
+      formElement.querySelectorAll(formConfig.inputElement)
+    );
+    const buttonElement = formElement.querySelector(formConfig.buttonElement);
 
     // call here to check button state on page load
     this._toggleButtonState(inputList, buttonElement);
@@ -61,13 +65,15 @@ export default class FormValidator {
   }
 
   enableValidation() {
-    const formList = Array.from(document.querySelectorAll('.form'));
+    const formList = Array.from(
+      document.querySelectorAll(formConfig.formElement)
+    );
     formList.forEach(formElement => {
       formElement.addEventListener('submit', e => {
         e.preventDefault();
       });
       const fieldsetList = Array.from(
-        formElement.querySelectorAll('.form__set')
+        formElement.querySelectorAll(formConfig.formSetElement)
       );
       fieldsetList.forEach(fieldSet => {
         this._setEventListeners(fieldSet);
