@@ -1,4 +1,4 @@
-import { popupConfig, cardConfig } from './index.js';
+import { popupConfig, cardConfig } from '../index.js';
 
 export default class Card {
   // the contrustor will store dynamic data,

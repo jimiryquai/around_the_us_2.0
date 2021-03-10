@@ -5,18 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Around The US</title>
-  <link rel="stylesheet" href="./pages/index.css">
 </head>
 
 <body>
   <div class="page">
     <header class="header">
-      <img src="./images/logo-white.svg" alt="logo" class="logo">
+      <img src="<%=require('./images/logo-white.svg')%>" alt="logo" class="logo">
     </header>
     <main class="main">
       <div class="profile">
         <div class="avatar">
-          <img src="./images/avatar.jpg" alt="jacques cousteau" class="avatar__img">
+          <img src="" alt="jacques cousteau" class="avatar__img" id="avatar">
         </div>
         <div class="profile__info">
           <h1 class="profile__name">Jacques Cousteau</h1>
@@ -103,8 +102,6 @@
       </li>
     </template>
   </div>
-  <script type="module" src="./js/index.js"></script>
-  <script type="module" src="./js/FormValidator.js"></script>
 </body>
 
 </html>

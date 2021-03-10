@@ -1,6 +1,17 @@
 'use strict';
-import Card from './Card.js';
-import FormValidator from './FormValidator.js';
+import './pages/index.css'; // add import of the main stylesheets file
+import avatarSrc from './images/avatar.jpg';
+import Card from './js/Card.js';
+import FormValidator from './js/FormValidator.js';
+
+const yosemiteImage = new URL('./images/yosemite.jpg', import.meta.url);
+const louiseImage = new URL('./images/lake-louise.png', import.meta.url);
+const baldImage = new URL('./images/bald-mountains.png', import.meta.url);
+const latemarImage = new URL('./images/latemar.png', import.meta.url);
+const vanoiseImage = new URL('./images/vanois.png', import.meta.url);
+const lagoImage = new URL('./images/lago-di-braies.png', import.meta.url);
+const avatarImage = document.getElementById('avatar');
+avatarImage.src = avatarSrc;
 
 export const cardConfig = {
   cardElement: '.card',
@@ -48,27 +59,27 @@ export const formConfig = {
 const initialCards = [
   {
     name: 'Yosemite Valley',
-    link: 'https://code.s3.yandex.net/web-code/yosemite.jpg',
+    link: yosemiteImage,
   },
   {
     name: 'Lake Louise',
-    link: 'https://code.s3.yandex.net/web-code/lake-louise.jpg',
+    link: louiseImage,
   },
   {
     name: 'Bald Mountains',
-    link: 'https://code.s3.yandex.net/web-code/bald-mountains.jpg',
+    link: baldImage,
   },
   {
     name: 'Latemar',
-    link: 'https://code.s3.yandex.net/web-code/latemar.jpg',
+    link: latemarImage,
   },
   {
     name: 'Vanoise National Park',
-    link: 'https://code.s3.yandex.net/web-code/vanoise.jpg',
+    link: vanoiseImage,
   },
   {
     name: 'Lago di Braies',
-    link: 'https://code.s3.yandex.net/web-code/lago.jpg',
+    link: lagoImage,
   },
 ];
 
