@@ -8,11 +8,7 @@ import {
 } from '../utils/constants.js';
 
 export default class Card {
-  // the contrustor will store dynamic data,
-  // each instance will have its own personal data
   constructor(data, cardTemplate) {
-    // the name and the link are private fields,
-    // they're only needed inside the class
     this._name = data.name;
     this._link = data.link;
     this._cardTemplate = cardTemplate;
@@ -49,9 +45,6 @@ export default class Card {
   }
 
   _handleClosePopup() {
-    popupImgFigImg.src = '';
-    popupImgFigImg.alt = '';
-    popupImgFigCaption.textContent = '';
     popupImg.classList.remove(popupConfig.popupOpenedClass);
   }
 

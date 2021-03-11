@@ -1,5 +1,5 @@
 'use strict';
-import './pages/index.css'; // add import of the main stylesheets file
+import './index.css'; // add import of the main stylesheets file
 import {
   formConfig,
   cardConfig,
@@ -18,24 +18,45 @@ import {
   formInputTitle,
   formInputUrl,
   formAdd,
-} from './utils/constants.js';
-import Card from './components/Card.js';
-import FormValidator from './components/FormValidator.js';
+} from '../utils/constants.js';
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
 
+// Do not delete - refer back to Working with Event Listeners — Part 1 I need to understand how to get tgis working
+// const cardList = new Section(
+//   {
+//     items: [],
+//     renderer: () => {},
+//   },
+//   cardConfig.cardContainerElement
+// );
+
+//Reusable functions
+const cardRenderer = element => {
+  const card = new Card(element, cardConfig.cardTemplateElement);
+  return card.generateCard();
+};
+
+const cardList = new Section(
+  {
+    items: initialCards,
+    renderer: cardItem => {
+      const card = cardRenderer(cardItem);
+      cardList.addItem(card);
+    },
+  },
+  cardConfig.cardContainerElement
+);
+
+cardList.renderItems();
 // validate all forms
 formList.forEach(form => {
   form = new FormValidator(formConfig, formConfig.formElement);
   form.enableValidation();
 });
 
-// Reusable functions
-const renderCard = element => {
-  const card = new Card(element, cardConfig.cardTemplateElement).generateCard();
-  // Add to the DOM
-  document.querySelector(cardConfig.cardContainerElement).append(card);
-};
-
-initialCards.forEach(item => renderCard(item));
+// initialCards.forEach(item => renderCard(item));
 
 function popupToggle(popup) {
   popup.classList.toggle(popupConfig.popupOpenedClass);
