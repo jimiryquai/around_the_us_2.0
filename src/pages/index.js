@@ -121,7 +121,7 @@ function popupToggle(popup) {
     // create an object that mimics initialCards structure
     // assign form values to relevant keys
     // pass object into renderCard function
-    renderCard({ name: title, link: url });
+    cardRenderer({ name: title, link: url });
     formAdd.reset();
   };
 
