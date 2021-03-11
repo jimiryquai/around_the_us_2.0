@@ -1,12 +1,12 @@
 'use strict';
-import avatarSrc from './images/avatar.jpg';
+import avatarSrc from '../images/avatar.jpg';
 
-const yosemiteImage = new URL('./images/yosemite.jpg', import.meta.url);
-const louiseImage = new URL('./images/lake-louise.png', import.meta.url);
-const baldImage = new URL('./images/bald-mountains.png', import.meta.url);
-const latemarImage = new URL('./images/latemar.png', import.meta.url);
-const vanoiseImage = new URL('./images/vanois.png', import.meta.url);
-const lagoImage = new URL('./images/lago-di-braies.png', import.meta.url);
+const yosemiteImage = new URL('../images/yosemite.jpg', import.meta.url);
+const louiseImage = new URL('../images/lake-louise.png', import.meta.url);
+const baldImage = new URL('../images/bald-mountains.png', import.meta.url);
+const latemarImage = new URL('../images/latemar.png', import.meta.url);
+const vanoiseImage = new URL('../images/vanois.png', import.meta.url);
+const lagoImage = new URL('../images/lago-di-braies.png', import.meta.url);
 const avatarImage = document.getElementById('avatar');
 avatarImage.src = avatarSrc;
 
@@ -52,7 +52,7 @@ export const formEdit = document.querySelector('.form_type_edit');
 export const formInputName = document.querySelector('.form__input_name');
 export const formInputJob = document.querySelector('.form__input_job');
 export const formList = Array.from(
-  document.querySelectorAll(formConfig.formElement)
+  document.querySelectorAll('.form')
 );
 
 // Add cards
