@@ -1,4 +1,11 @@
-import { popupConfig, cardConfig } from '../index.js';
+import {
+  popupConfig,
+  cardConfig,
+  popupImg,
+  popupImgClose,
+  popupImgFigImg,
+  popupImgFigCaption,
+} from '../utils/constants.js';
 
 export default class Card {
   // the contrustor will store dynamic data,
@@ -35,17 +42,17 @@ export default class Card {
   }
 
   _handleOpenPopup() {
-    popupConfig.popupFigImg.src = this._link;
-    popupConfig.popupFigImg.alt = this._name;
-    popupConfig.popupFigCaption.textContent = this._name;
-    popupConfig.popupImgElement.classList.add(popupConfig.popupOpenedClass);
+    popupImgFigImg.src = this._link;
+    popupImgFigImg.alt = this._name;
+    popupImgFigCaption.textContent = this._name;
+    popupImg.classList.add(popupConfig.popupOpenedClass);
   }
 
   _handleClosePopup() {
-    popupConfig.popupFigImg.src = '';
-    popupConfig.popupFigImg.alt = '';
-    popupConfig.popupFigCaption.textContent = '';
-    popupConfig.popupImgElement.classList.remove(popupConfig.popupOpenedClass);
+    popupImgFigImg.src = '';
+    popupImgFigImg.alt = '';
+    popupImgFigCaption.textContent = '';
+    popupImg.classList.remove(popupConfig.popupOpenedClass);
   }
 
   _handleDeleteCard() {
@@ -62,7 +69,7 @@ export default class Card {
       this._handleOpenPopup();
     });
 
-    popupConfig.buttonElement.addEventListener('click', () => {
+    popupImgClose.addEventListener('click', () => {
       // close the popup
       this._handleClosePopup();
     });
