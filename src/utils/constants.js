@@ -51,9 +51,7 @@ export const profileJob = document.querySelector('.profile__job');
 export const formEdit = document.querySelector('.form_type_edit');
 export const formInputName = document.querySelector('.form__input_name');
 export const formInputJob = document.querySelector('.form__input_job');
-export const formList = Array.from(
-  document.querySelectorAll('.form')
-);
+export const formList = Array.from(document.querySelectorAll('.form'));
 
 // Add cards
 export const buttonAdd = document.querySelector('.button_add');
@@ -80,6 +78,7 @@ export const popupConfig = {
   popupFigImg: '.popup__image',
   popupFigCaption: '.popup__caption',
   popupOpenedClass: 'popup_opened',
+  popupCloseClass: 'popup__close',
   popupEditCloseClass: 'popup__close_type_edit',
   popupAddCloseClass: 'popup__close_type_add',
 };
