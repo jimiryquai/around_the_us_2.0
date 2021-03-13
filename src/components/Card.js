@@ -3,15 +3,14 @@ import {
   cardConfig,
   popupImg,
   popupImgClose,
-  popupImgFigImg,
-  popupImgFigCaption,
 } from '../utils/constants.js';
 
 export default class Card {
-  constructor(data, cardTemplate) {
+  constructor(data, cardTemplate, handleCardClick) {
     this._name = data.name;
     this._link = data.link;
     this._cardTemplate = cardTemplate;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -37,12 +36,12 @@ export default class Card {
     return this._element;
   }
 
-  _handleOpenPopup() {
-    popupImgFigImg.src = this._link;
-    popupImgFigImg.alt = this._name;
-    popupImgFigCaption.textContent = this._name;
-    popupImg.classList.add(popupConfig.popupOpenedClass);
-  }
+  // _handleOpenPopup() {
+  //   popupImgFigImg.src = this._link;
+  //   popupImgFigImg.alt = this._name;
+  //   popupImgFigCaption.textContent = this._name;
+  //   popupImg.classList.add(popupConfig.popupOpenedClass);
+  // }
 
   _handleClosePopup() {
     popupImg.classList.remove(popupConfig.popupOpenedClass);
@@ -59,7 +58,10 @@ export default class Card {
   _setEventListeners() {
     this._image.addEventListener('click', () => {
       // open the popup
-      this._handleOpenPopup();
+      this._handleCardClick({
+        name: this._name,
+        link: this._link,
+      });
     });
 
     popupImgClose.addEventListener('click', () => {

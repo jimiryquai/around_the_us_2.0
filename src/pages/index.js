@@ -22,6 +22,7 @@ import {
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage';
 
 // Do not delete - refer back to Working with Event Listeners — Part 1 I need to understand how to get tgis working
 // const cardList = new Section(
@@ -31,10 +32,18 @@ import Section from '../components/Section.js';
 //   },
 //   cardConfig.cardContainerElement
 // );
+const popupTypeImage = new PopupWithImage('.popup_type_image');
+popupTypeImage.setEventListeners();
+console.log(popupTypeImage);
 
+const handleCardClick = data => popupTypeImage.open(data);
 //Reusable functions
 const cardRenderer = element => {
-  const card = new Card(element, cardConfig.cardTemplateElement);
+  const card = new Card(
+    element,
+    cardConfig.cardTemplateElement,
+    handleCardClick
+  );
   return card.generateCard();
 };
 
