@@ -3,18 +3,12 @@ import './index.css'; // add import of the main stylesheets file
 import {
   formConfig,
   cardConfig,
-  popupConfig,
   initialCards,
   formList,
   buttonEdit,
-  popupEdit,
-  profileName,
-  profileJob,
-  formEdit,
   formInputName,
   formInputJob,
   buttonAdd,
-  popupAdd,
   formInputTitle,
   formInputUrl,
   formAdd,
@@ -22,7 +16,9 @@ import {
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
-import PopupWithImage from '../components/PopupWithImage';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
 // Do not delete - refer back to Working with Event Listeners — Part 1 I need to understand how to get tgis working
 // const cardList = new Section(
@@ -32,15 +28,18 @@ import PopupWithImage from '../components/PopupWithImage';
 //   },
 //   cardConfig.cardContainerElement
 // );
+
 const popupTypeImage = new PopupWithImage('.popup_type_image');
 popupTypeImage.setEventListeners();
-console.log(popupTypeImage);
+
+const popupAddCard = new PopupWithForm('.popup_type_add');
+popupAddCard.setEventListeners();
 
 const handleCardClick = data => popupTypeImage.open(data);
 //Reusable functions
-const cardRenderer = element => {
+const cardRenderer = cardInstance => {
   const card = new Card(
-    element,
+    cardInstance,
     cardConfig.cardTemplateElement,
     handleCardClick
   );
@@ -65,61 +64,34 @@ formList.forEach(form => {
   form.enableValidation();
 });
 
-// initialCards.forEach(item => renderCard(item));
+// Edit User Info
+const userInfo = new UserInfo({
+  nameSelector: '.profile__name',
+  jobSelector: '.profile__job',
+});
 
-function popupToggle(popup) {
-  popup.classList.toggle(popupConfig.popupOpenedClass);
-  // closes popup with click on overlay
-  popup.addEventListener('click', e => {
-    if (e.target.classList.contains(popupConfig.popupOpenedClass)) {
-      popupToggle(popup);
-    }
-  });
-  // closes popup with click on overlay
-  window.addEventListener('keydown', e => {
-    if (
-      e.key === 'Escape' &&
-      popup.classList.contains(popupConfig.popupOpenedClass)
-    ) {
-      popupToggle(popup);
-    }
-  });
-  // closes popup with click on close button
-  const popupList = document.querySelectorAll(popupConfig.popupElement);
-  popupList.forEach(popupElement => {
-    popupElement.addEventListener('click', e => {
-      if (e.target.classList.contains(popupConfig.popupEditCloseClass)) {
-        popupToggle(popupElement);
-      } else if (e.target.classList.contains(popupConfig.popupAddCloseClass)) {
-        popupToggle(popupElement);
-      }
-    });
-  });
-}
+const handleEditUserInfoFormSubmit = ({
+  'name-input': name,
+  'job-input': job,
+}) => userInfo.setUserInfo({ name, job });
 
-// Profile editing
-(function () {
-  const editFormLoadHandler = () => {
-    formInputName.value = profileName.textContent;
-    formInputJob.value = profileJob.textContent;
-  };
+const popupEditUserInfo = new PopupWithForm(
+  '.popup_type_edit',
+  handleEditUserInfoFormSubmit
+);
+popupEditUserInfo.setEventListeners();
 
-  const editFormSubmitHandler = () => {
-    profileName.textContent = formInputName.value;
-    profileJob.textContent = formInputJob.value;
-  };
+buttonEdit.addEventListener('click', () => {
+  popupEditUserInfo.open();
+});
 
-  buttonEdit.addEventListener('click', () => {
-    popupToggle(popupEdit);
-  });
+const handleEditUserInfoFormLoad = () => {
+  const user = userInfo.getUserInfo();
+  formInputName.value = user.name;
+  formInputJob.value = user.job;
+};
 
-  formEdit.addEventListener('submit', () => {
-    popupToggle(popupEdit);
-  });
-
-  buttonEdit.addEventListener('click', editFormLoadHandler);
-  formEdit.addEventListener('submit', editFormSubmitHandler);
-})();
+buttonEdit.addEventListener('click', handleEditUserInfoFormLoad);
 
 // Adding cards
 (function () {
@@ -136,11 +108,11 @@ function popupToggle(popup) {
   };
 
   buttonAdd.addEventListener('click', () => {
-    popupToggle(popupAdd);
+    popupAddCard.open();
   });
 
   formAdd.addEventListener('submit', () => {
-    popupToggle(popupAdd);
+    popupAddCard.open();
   });
   formAdd.addEventListener('submit', addFormSubmitHandler);
 })();

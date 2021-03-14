@@ -4,6 +4,7 @@ export default class Popup {
   //The constructor has a single parameter, which is the popup selector.
   constructor(popupSelector) {
     this._element = document.querySelector(popupSelector);
+    this._button = this._element.querySelector(popupConfig.buttonElement);
   }
 
   open() {
@@ -23,9 +24,7 @@ export default class Popup {
   }
   //It stores a public method named setEventListeners() that adds a click event listener to the close icon of the popup.
   setEventListeners() {
-    this._element
-      .querySelector(popupConfig.buttonElement)
-      .addEventListener('click', e => this.close(e));
+    this._button.addEventListener('click', e => this.close(e));
 
     this._element.addEventListener('click', e => {
       if (e.target.classList.contains(popupConfig.popupOpenedClass)) {
