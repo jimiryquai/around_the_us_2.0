@@ -1,10 +1,10 @@
-# Project 4: Around The U.S.
+# Project 6: Around The U.S.
 
 =======
 
 ### Overview
 
-Around The U.S. is the fourth project in the Practicum by Yandex Professional Web Developer Certificate Program.
+Around The U.S. is the sixth project in the Practicum by Yandex Professional Web Developer Certificate Program.
 
 ### Description
 
