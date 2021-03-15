@@ -37,28 +37,15 @@ export const initialCards = [
     link: lagoImage,
   },
 ];
-// Image Popup
-export const popupImg = document.querySelector('.popup_type_image');
-export const popupImgClose = document.querySelector('.popup__close_type_image');
-export const popupImgFigImg = document.querySelector('.popup__image');
-export const popupImgFigCaption = document.querySelector('.popup__caption');
 
 // Edit profile
 export const buttonEdit = document.querySelector('.button_edit');
-export const popupEdit = document.querySelector('.popup_type_edit');
-export const profileName = document.querySelector('.profile__name');
-export const profileJob = document.querySelector('.profile__job');
-export const formEdit = document.querySelector('.form_type_edit');
 export const formInputName = document.querySelector('.form__input_name');
 export const formInputJob = document.querySelector('.form__input_job');
 export const formList = Array.from(document.querySelectorAll('.form'));
 
 // Add cards
 export const buttonAdd = document.querySelector('.button_add');
-export const popupAdd = document.querySelector('.popup_type_add');
-export const formInputTitle = document.querySelector('.form__input_title');
-export const formInputUrl = document.querySelector('.form__input_url');
-export const formAdd = document.querySelector('.form_type_add');
 
 export const cardConfig = {
   cardElement: '.card',
