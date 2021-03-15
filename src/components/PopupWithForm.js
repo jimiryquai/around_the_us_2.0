@@ -9,6 +9,7 @@ export default class PopupWithForm extends Popup {
   }
   // It stores a private method named _getInputValues(), which collects data from all the input fields.
   _getInputValues() {
+    console.log(Object.fromEntries(new FormData(this._form)));
     return Object.fromEntries(new FormData(this._form));
   }
 
