@@ -16,6 +16,7 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
+import Api from '../components/Api.js';
 
 // Do not delete - refer back to Working with Event Listeners — Part 1 I need to understand how to get this working
 // const cardList = new Section(
@@ -25,6 +26,17 @@ import UserInfo from '../components/UserInfo.js';
 //   },
 //   cardConfig.cardContainerElement
 // );
+
+// API
+const api = new Api({
+  baseUrl: 'https://around.nomoreparties.co/v1/group-9',
+  headers: {
+    authorization: '68927198-85ad-496d-8f9c-4cee8f16e3cd',
+    'Content-Type': 'application/json',
+  },
+});
+
+console.log(api.getUserInfo());
 
 // Adding cards
 
