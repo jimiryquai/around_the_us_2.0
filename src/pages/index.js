@@ -3,7 +3,6 @@ import './index.css'; // add import of the main stylesheets file
 import {
   formConfig,
   cardConfig,
-  initialCards,
   formList,
   buttonEdit,
   formInputName,
@@ -18,16 +17,35 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 
-api.getCardList().then(cardsData => console.log(cardsData));
+// Promise all
+api.getAppInfo().then(([cardsData, userData]) => {
+  const cardList = new Section(
+    {
+      items: cardsData,
+      renderer: cardItem => {
+        const card = cardRenderer(cardItem);
+        cardList.addItem(card);
+      },
+    },
+    cardConfig.cardContainerElement
+  );
+  // render card list
+  cardList.renderItems();
+  // Get user info from server
+  userInfo.setUserInfo({
+    name: userData.name,
+    job: userData.about,
+  });
+});
 
 // Do not delete - refer back to Working with Event Listeners — Part 1 I need to understand how to get this working
-// const cardList = new Section(
-//   {
-//     items: [],
-//     renderer: () => {},
-//   },
-//   cardConfig.cardContainerElement
-// );
+const cardList = new Section(
+  {
+    items: [],
+    renderer: () => {},
+  },
+  cardConfig.cardContainerElement
+);
 
 // Adding cards
 
@@ -40,18 +58,6 @@ const cardRenderer = cardInstance => {
   );
   return card.generateCard();
 };
-
-// Create a card list section and add cards to list
-const cardList = new Section(
-  {
-    items: initialCards,
-    renderer: cardItem => {
-      const card = cardRenderer(cardItem);
-      cardList.addItem(card);
-    },
-  },
-  cardConfig.cardContainerElement
-);
 
 // Add a new card
 const handleAddCardFormSubmit = ({ 'title-input': name, 'url-input': link }) =>
@@ -72,9 +78,6 @@ const popupTypeImage = new PopupWithImage('.popup_type_image');
 popupTypeImage.setEventListeners();
 
 const handleCardClick = data => popupTypeImage.open(data);
-
-// render card list
-cardList.renderItems();
 
 // Edit User Info
 const userInfo = new UserInfo({
