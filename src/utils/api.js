@@ -1,12 +1,12 @@
-export default class Api {
+class Api {
   constructor({ baseUrl, headers }) {
-    this.baseUrl = baseUrl;
-    this.headers = headers;
+    this._baseUrl = baseUrl;
+    this._headers = headers;
   }
 
-  getInitialCards() {
-    return fetch(`${this.baseUrl}/cards`, {
-      headers: this.headers,
+  getCardList() {
+    return fetch(`${this._baseUrl}/cards`, {
+      headers: this._headers,
     })
       .then(res =>
         res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
@@ -15,8 +15,8 @@ export default class Api {
   }
 
   getUserInfo() {
-    return fetch(`${this.baseUrl}/users/me`, {
-      headers: this.headers,
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: this._headers,
     })
       .then(res =>
         res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
@@ -29,8 +29,8 @@ export default class Api {
   }
 
   addCard({ name, link }) {
-    return fetch(`${this.baseUrl}/cards`, {
-      headers: this.headers,
+    return fetch(`${this._baseUrl}/cards`, {
+      headers: this._headers,
       method: 'POST',
       body: JSON.stringify({
         name,
@@ -44,8 +44,8 @@ export default class Api {
   }
 
   removeCard(cardId) {
-    return fetch(`${this.baseUrl}/cards/` + cardId, {
-      headers: this.headers,
+    return fetch(`${this._baseUrl}/cards/` + cardId, {
+      headers: this._headers,
       method: 'DELETE',
     })
       .then(res =>
@@ -54,9 +54,20 @@ export default class Api {
       .catch(err => console.log(err));
   }
 
+  changeCardLikeStatus({ cardId, cardLiked }) {
+    return fetch(`${this._baseUrl}/cards/likes/` + cardId, {
+      headers: this._headers,
+      method: cardLiked ? 'PUT' : 'DELETE',
+    })
+      .then(res =>
+        res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
+      )
+      .catch(err => console.log(err));
+  }
+
   editUserInfo({ name, about }) {
-    return fetch(`${this.baseUrl}/users/me`, {
-      headers: this.headers,
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({
         name,
@@ -70,8 +81,8 @@ export default class Api {
   }
 
   editUserAvatar({ avatar }) {
-    return fetch(`${this.baseUrl}/users/me/avatar`, {
-      headers: this.headers,
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({
         avatar,
@@ -82,15 +93,15 @@ export default class Api {
       )
       .catch(err => console.log(err));
   }
-
-  changeCardLikeStatus({ cardId, cardLiked }) {
-    return fetch(`${this.baseUrl}/cards/likes/` + cardId, {
-      headers: this.headers,
-      method: cardLiked ? 'PUT' : 'DELETE',
-    })
-      .then(res =>
-        res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
-      )
-      .catch(err => console.log(err));
-  }
 }
+
+// Api class instantiated only once (singleton pattern)
+const api = new Api({
+  baseUrl: 'https://around.nomoreparties.co/v1/group-9',
+  headers: {
+    authorization: '68927198-85ad-496d-8f9c-4cee8f16e3cd',
+    'Content-Type': 'application/json',
+  },
+});
+
+export default api;
