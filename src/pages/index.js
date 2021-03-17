@@ -27,7 +27,7 @@ import Api from '../components/Api.js';
 //   cardConfig.cardContainerElement
 // );
 
-// API
+// Api class instantiated only once (singleton pattern)
 const api = new Api({
   baseUrl: 'https://around.nomoreparties.co/v1/group-9',
   headers: {
@@ -35,8 +35,6 @@ const api = new Api({
     'Content-Type': 'application/json',
   },
 });
-
-console.log(api.getUserInfo());
 
 // Adding cards
 
@@ -91,22 +89,20 @@ const userInfo = new UserInfo({
   jobSelector: '.profile__job',
 });
 
-const handleEditUserInfoFormLoad = () => {
+const handleGetUserInfo = () => {
   const user = userInfo.getUserInfo();
   formInputName.value = user.name;
   formInputJob.value = user.job;
 };
 
-buttonEdit.addEventListener('click', handleEditUserInfoFormLoad);
+buttonEdit.addEventListener('click', handleGetUserInfo);
 
-const handleEditUserInfoFormSubmit = ({
-  'name-input': name,
-  'job-input': job,
-}) => userInfo.setUserInfo({ name, job });
+const handleEditUserInfo = ({ 'name-input': name, 'job-input': job }) =>
+  userInfo.setUserInfo({ name, job });
 
 const popupEditUserInfo = new PopupWithForm(
   '.popup_type_edit',
-  handleEditUserInfoFormSubmit
+  handleEditUserInfo
 );
 popupEditUserInfo.setEventListeners();
 

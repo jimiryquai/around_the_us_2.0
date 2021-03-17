@@ -8,12 +8,15 @@
 </head>
 
 <body>
+
   <div class="page">
     <header class="header">
       <img src="<%=require('./images/logo-white.svg')%>" alt="logo" class="logo">
     </header>
+
     <main class="main">
-      <div class="profile">
+      <!-- Profile Section -->
+      <section class="profile">
         <div class="avatar">
           <img src="" alt="jacques cousteau" class="avatar__img" id="avatar">
         </div>
@@ -25,16 +28,21 @@
         </div>
         <button class="button button_add" title="button that launches image adding form">
         </button>
-      </div>
+      </section>
+
+      <!-- Card gallery section with cards list -->
       <section class="gallery">
         <ul class="cards">
 
         </ul>
       </section>
     </main>
+
     <footer class="footer">
       <p class="footer__copyright">&copy; James Ryan 2021</p>
     </footer>
+
+    <!-- Popup to Edit User Info Section -->
     <div class="popup popup_type_edit">
       <div class="popup__modal popup__modal_type_form">
         <button class="popup__close popup__close_type_edit" title="button that closes form"></button>
@@ -59,6 +67,26 @@
         </form>
       </div>
     </div>
+
+    <!-- Popup to Edit User Avatar -->
+    <div class="popup popup_type_edit-avatar">
+      <div class="popup__modal popup__modal_type_form">
+        <button class="popup__close popup__close_type_edit-avatar" title="button that closes form"></button>
+        <h2 class="content-title">Change User Avatar</h2>
+        <form class="form form_type_edit" action="#" name="edit-avatar">
+          <fieldset class="form__set">
+            <label class="form__label" for="avatar-input">
+              <input class=class="form__input form__input_avatar" name="avatar-input" id="avatar-input" type="url"
+                placeholder="Image Link" required />
+              <span class="form__input-error" id="avatar-input-error"></span>
+            </label>
+            <button class="button button_submit" type="submit">Save</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+
+    <!-- Popup to Add Card -->
     <div class="popup popup_type_add">
       <div class="popup__modal popup__modal_type_form">
         <button class="popup__close popup__close_type_add" title="button that closes form"></button>
@@ -82,6 +110,19 @@
         </form>
       </div>
     </div>
+
+    <!-- Popup to Delete Card -->
+    <div class="popup popup_type_delete">
+      <div class="popup__modal popup__modal_type_form">
+        <button class="popup__close popup__close_type_delete" title="button that closes form"></button>
+        <form class="form form_type_delete" action="#" novalidate>
+          <h2 class="content__title">Are you sure?</h2>
+          <button class="button button_submit" type="submit">Yes</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Popup to Display Card Image-->
     <div class="popup popup_type_image">
       <div class="popup__modal popup__modal_type_image">
         <button class="popup__close popup__close_type_image" title="button that closes form"></button>
@@ -91,6 +132,8 @@
         </figure>
       </div>
     </div>
+
+    <!-- Cards Template -->
     <template class="card-template">
       <li class="card">
         <button class="button button_trash" title="button that deletes image"></button>
