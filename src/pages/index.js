@@ -17,28 +17,42 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 
-// Promise all
-api.getAppInfo().then(([cardsData, userData]) => {
-  const cardList = new Section(
-    {
-      items: cardsData,
-      renderer: cardItem => {
-        const card = cardRenderer(cardItem);
-        cardList.addItem(card);
-      },
-    },
-    cardConfig.cardContainerElement
-  );
-  // render card list
-  cardList.renderItems();
-  // Get user info from server
-  userInfo.setUserInfo({
-    name: userData.name,
-    job: userData.about,
-  });
-});
+api.getCardList().then(res => console.log(res));
 
-// Do not delete - refer back to Working with Event Listeners — Part 1 I need to understand how to get this working
+// Returns a Promise.all and loads cards and userData
+api
+  .getAppInfo()
+  .then(([cardsData, userData]) => {
+    //const userId = userData._id;
+
+    cardsData.forEach(cardItem => cardList.addItem(cardRenderer(cardItem)));
+    // const cardList = new Section(
+    //   {
+    //     items: cardsData,
+    //     renderer: cardItem => {
+    //       const card = cardRenderer(cardItem);
+    //       cardList.addItem(card);
+    //     },
+    //   },
+    //   cardConfig.cardContainerElement
+    // );
+    // render card list
+    //cardList.renderItems();
+
+    // Get user info from server
+    userInfo.setUserInfo({
+      name: userData.name,
+      about: userData.about,
+    });
+    // Get user avatar from server
+    userInfo.setUserAvatar({ avatar: userData.avatar });
+  })
+  .catch(err => {
+    console.log(err);
+  });
+//End of promise all
+
+// Create instance of section class that
 const cardList = new Section(
   {
     items: [],
@@ -48,7 +62,6 @@ const cardList = new Section(
 );
 
 // Adding cards
-
 // Render a new card
 const cardRenderer = cardInstance => {
   const card = new Card(
@@ -60,8 +73,19 @@ const cardRenderer = cardInstance => {
 };
 
 // Add a new card
-const handleAddCardFormSubmit = ({ 'title-input': name, 'url-input': link }) =>
-  cardList.addItem(cardRenderer({ name, link }));
+const handleAddCardFormSubmit = ({
+  'title-input': name,
+  'url-input': link,
+}) => {
+  api
+    .addCard({ name, link })
+    .then(({ name, link }) => {
+      cardList.addItem(cardRenderer({ name, link }));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
 
 const popupAddCard = new PopupWithForm(
   '.popup_type_add',
@@ -75,6 +99,7 @@ buttonAdd.addEventListener('click', () => {
 
 // Card clicks/Image Popup
 const popupTypeImage = new PopupWithImage('.popup_type_image');
+
 popupTypeImage.setEventListeners();
 
 const handleCardClick = data => popupTypeImage.open(data);
@@ -83,18 +108,27 @@ const handleCardClick = data => popupTypeImage.open(data);
 const userInfo = new UserInfo({
   nameSelector: '.profile__name',
   jobSelector: '.profile__job',
+  avatarSelector: '.avatar__img',
 });
 
 const handleGetUserInfo = () => {
   const user = userInfo.getUserInfo();
   formInputName.value = user.name;
-  formInputJob.value = user.job;
+  formInputJob.value = user.about;
 };
 
 buttonEdit.addEventListener('click', handleGetUserInfo);
 
-const handleEditUserInfo = ({ 'name-input': name, 'job-input': job }) =>
-  userInfo.setUserInfo({ name, job });
+const handleEditUserInfo = ({ 'name-input': name, 'job-input': about }) => {
+  api
+    .editUserInfo({ name, about })
+    .then(({ name, about }) => {
+      userInfo.setUserInfo({ name, about });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
 
 const popupEditUserInfo = new PopupWithForm(
   '.popup_type_edit',

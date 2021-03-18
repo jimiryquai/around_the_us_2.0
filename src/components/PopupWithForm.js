@@ -22,8 +22,6 @@ export default class PopupWithForm extends Popup {
   setEventListeners() {
     // It modifies the setEventListeners() parent method.
     super.setEventListeners();
-    // It adds the click event listener to the close icon
-    this._button.addEventListener('click', e => this.close(e));
     // It adds the submit event handler to the submit button.
     this._form.addEventListener('submit', e => {
       this._handleFormSubmit(this._getInputValues(e));

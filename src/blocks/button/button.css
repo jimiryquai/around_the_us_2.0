@@ -4,6 +4,7 @@
 @import url('./_trash/button_trash.css');
 @import url('./_heart/button_heart.css');
 @import url('./_inactive/button_inactive.css');
+@import url('./_avatar/button_avatar.css');
 
 .button {
   border-radius: 2px;
