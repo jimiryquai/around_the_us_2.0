@@ -16,7 +16,7 @@ export default class Popup {
   close(e) {
     this._element.classList.remove(popupConfig.popupOpenedClass);
     document.removeEventListener('keydown', this._handleEscClose);
-    e.stopPropagation();
+    //e.stopPropagation();
   }
 
   //It stores a private method named _handleEscClose() that stores the logic for closing the popup by pressing the Esc key.

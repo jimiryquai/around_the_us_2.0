@@ -23,21 +23,11 @@ api.getCardList().then(res => console.log(res));
 api
   .getAppInfo()
   .then(([cardsData, userData]) => {
-    //const userId = userData._id;
+    const userId = userData._id;
 
-    cardsData.forEach(cardItem => cardList.addItem(cardRenderer(cardItem)));
-    // const cardList = new Section(
-    //   {
-    //     items: cardsData,
-    //     renderer: cardItem => {
-    //       const card = cardRenderer(cardItem);
-    //       cardList.addItem(card);
-    //     },
-    //   },
-    //   cardConfig.cardContainerElement
-    // );
-    // render card list
-    //cardList.renderItems();
+    cardsData.forEach(cardItem =>
+      cardList.addItem(cardRenderer(cardItem, userId))
+    );
 
     // Get user info from server
     userInfo.setUserInfo({
@@ -52,7 +42,7 @@ api
   });
 //End of promise all
 
-// Create instance of section class that
+// Create instance of section class
 const cardList = new Section(
   {
     items: [],
@@ -63,12 +53,21 @@ const cardList = new Section(
 
 // Adding cards
 // Render a new card
-const cardRenderer = cardInstance => {
+const cardRenderer = (cardInstance, userId) => {
   const card = new Card(
     cardInstance,
     cardConfig.cardTemplateElement,
-    handleCardClick
+    handleCardClick,
+    handleRemoveCard,
+    userId
   );
+  // need to create another new Card instance or this will not work!!!
+  const handleRemoveCard = cardId =>
+    api.removeCard(cardId).then(cardItem => {
+      popupTypeDelete.close();
+      card.handleDeleteCard(cardItem._id);
+    });
+
   return card.generateCard();
 };
 
@@ -79,8 +78,8 @@ const handleAddCardFormSubmit = ({
 }) => {
   api
     .addCard({ name, link })
-    .then(({ name, link }) => {
-      cardList.addItem(cardRenderer({ name, link }));
+    .then(cardElement => {
+      cardList.addItem(cardRenderer(cardElement, cardElement.owner._id));
     })
     .catch(err => {
       console.log(err);
@@ -91,6 +90,7 @@ const popupAddCard = new PopupWithForm(
   '.popup_type_add',
   handleAddCardFormSubmit
 );
+
 popupAddCard.setEventListeners();
 
 buttonAdd.addEventListener('click', () => {
@@ -103,6 +103,13 @@ const popupTypeImage = new PopupWithImage('.popup_type_image');
 popupTypeImage.setEventListeners();
 
 const handleCardClick = data => popupTypeImage.open(data);
+
+const popupTypeDelete = new PopupWithForm(
+  '.popup_type_delete',
+  handleRemoveCard
+);
+
+popupTypeDelete.setEventListeners();
 
 // Edit User Info
 const userInfo = new UserInfo({
@@ -122,8 +129,11 @@ buttonEdit.addEventListener('click', handleGetUserInfo);
 const handleEditUserInfo = ({ 'name-input': name, 'job-input': about }) => {
   api
     .editUserInfo({ name, about })
-    .then(({ name, about }) => {
-      userInfo.setUserInfo({ name, about });
+    .then(userProfile => {
+      userInfo.setUserInfo({
+        name: userProfile.name,
+        about: userProfile.about,
+      });
     })
     .catch(err => {
       console.log(err);
@@ -134,6 +144,7 @@ const popupEditUserInfo = new PopupWithForm(
   '.popup_type_edit',
   handleEditUserInfo
 );
+
 popupEditUserInfo.setEventListeners();
 
 buttonEdit.addEventListener('click', () => {

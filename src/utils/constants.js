@@ -53,7 +53,8 @@ export const cardConfig = {
   cardContainerElement: '.cards',
   cardImageElement: '.card__image',
   cardTitleElement: '.card__title',
-  cardLikeElement: '.button_heart',
+  cardButtonElement: '.button_heart',
+  cardLikesElement: '.card__likes',
   cardDeleteElement: '.button_trash',
   cardLikedClass: 'button_heart_liked',
 };
