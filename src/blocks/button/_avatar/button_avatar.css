@@ -7,13 +7,16 @@
   border-radius: 50%;
   border: none;
   padding: 0;
-  background: url('../../../images/pencil.svg') var(--color-darkish) no-repeat
-    50%/26px;
+  background-color: var(--color-darkish);
+  background-size: 26px;
+  background-position: center;
+  background-repeat: no-repeat;
   opacity: 0;
   transition: opacity ease-in-out 0.5s;
 }
 
 .button_avatar:hover {
+  background-image: url('../../../images/pencil.svg');
   opacity: 1;
   cursor: pointer;
 }

@@ -11,7 +11,6 @@ export default class Card {
     this._cardTemplate = cardTemplate;
     this._handleCardClick = handleCardClick;
     this._handleRemoveCard = handleRemoveCard;
-    //this._handleLikeCard = handleLikeCard;
   }
 
   _getTemplate() {

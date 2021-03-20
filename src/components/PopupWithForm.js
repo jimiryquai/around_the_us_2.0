@@ -6,16 +6,15 @@ export default class PopupWithForm extends Popup {
     this._handleFormSubmit = handleFormSubmit;
     this._form = this._element.querySelector('.form');
     this._button = this._element.querySelector('.popup__close');
-    this._submit = this._element.querySelector('.button_submit');
   }
   // It stores a private method named _getInputValues(), which collects data from all the input fields.
   _getInputValues() {
     return Object.fromEntries(new FormData(this._form));
   }
 
-  close(e) {
+  close() {
     //It modifies the close() parent method in order to reset the form once the popup is closed.
-    super.close(e);
+    super.close();
     this._form.reset();
   }
 
@@ -26,8 +25,9 @@ export default class PopupWithForm extends Popup {
     this._button.addEventListener('click', e => this.close(e));
     // It adds the submit event handler to the submit button.
     this._form.addEventListener('submit', e => {
+      debugger;
       this._handleFormSubmit(this._getInputValues(e));
-      this.close(e);
+      this.close();
     });
   }
 }

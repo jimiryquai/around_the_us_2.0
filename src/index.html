@@ -1,221 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Around The US</title>
-  </head>
 
-  <body>
-    <div class="page">
-      <header class="header">
-        <img
-          src="<%=require('./images/logo-white.svg')%>"
-          alt="logo"
-          class="logo"
-        />
-      </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Around The US</title>
+</head>
 
-      <main class="main">
-        <!-- Profile Section -->
-        <section class="profile">
-          <div class="avatar">
-            <img
-              src=""
-              alt="jacques cousteau"
-              class="avatar__img"
-              id="avatar"
-            />
-          </div>
-          <div class="profile__info">
-            <h1 class="profile__name">Jacques Cousteau</h1>
-            <button
-              class="button button_edit"
-              title="button that launches profile editing form"
-            ></button>
-            <p class="profile__job">Explorer</p>
-          </div>
-          <button
-            class="button button_add"
-            title="button that launches image adding form"
-          ></button>
-        </section>
+<body>
+  <div class="page">
+    <header class="header">
+      <img src="<%=require('./images/logo-white.svg')%>" alt="logo" class="logo" />
+    </header>
 
-        <!-- Card gallery section with cards list -->
-        <section class="gallery">
-          <ul class="cards"></ul>
-        </section>
-      </main>
-
-      <footer class="footer">
-        <p class="footer__copyright">&copy; James Ryan 2021</p>
-      </footer>
-
-      <!-- Popup to Edit User Info Section -->
-      <div class="popup popup_type_edit">
-        <div class="popup__modal popup__modal_type_form">
-          <button
-            class="popup__close popup__close_type_edit"
-            title="button that closes form"
-          ></button>
-          <h2 class="content-title">Edit profile</h2>
-          <form class="form form_type_edit" novalidate>
-            <fieldset class="form__set">
-              <label class="form__label" for="name-input">
-                <input
-                  type="text"
-                  class="form__input form__input_name"
-                  id="name-input"
-                  name="name-input"
-                  placeholder="Name"
-                  required
-                  minlength="2"
-                  maxlength="40"
-                  pattern="[A-Za-z -]{2,}"
-                  aria-describedby="name-input-error"
-                />
-                <span class="form__input-error" id="name-input-error"></span>
-              </label>
-              <label class="form__label" for="job-input">
-                <input
-                  type="text"
-                  class="form__input form__input_job"
-                  id="job-input"
-                  name="job-input"
-                  placeholder="About Me"
-                  required
-                  minlength="2"
-                  maxlength="200"
-                  aria-describedby="job-input-error"
-                />
-                <span class="form__input-error" id="job-input-error"></span>
-              </label>
-              <button class="button button_submit" type="submit">Save</button>
-            </fieldset>
-          </form>
+    <main class="main">
+      <!-- Profile Section -->
+      <section class="profile">
+        <div class="avatar">
+          <img src="" alt="jacques cousteau" class="avatar__img" id="avatar" />
+          <button class="button button_avatar"></button>
         </div>
-      </div>
-
-      <!-- Popup to Edit User Avatar -->
-      <div class="popup popup_type_edit-avatar">
-        <div class="popup__modal popup__modal_type_form">
-          <button
-            class="popup__close popup__close_type_edit-avatar"
-            title="button that closes form"
-          ></button>
-          <h2 class="content-title">Change User Avatar</h2>
-          <form class="form form_type_edit" action="#" name="edit-avatar">
-            <fieldset class="form__set">
-              <label class="form__label" for="avatar-input">
-                <input
-                  class="class"
-                  ="form__input form__input_avatar"
-                  name="avatar-input"
-                  id="avatar-input"
-                  type="url"
-                  placeholder="Image Link"
-                  required
-                />
-                <span class="form__input-error" id="avatar-input-error"></span>
-              </label>
-              <button class="button button_submit" type="submit">Save</button>
-            </fieldset>
-          </form>
+        <div class="profile__info">
+          <h1 class="profile__name">Jacques Cousteau</h1>
+          <button class="button button_edit" title="button that launches profile editing form"></button>
+          <p class="profile__job">Explorer</p>
         </div>
-      </div>
+        <button class="button button_add" title="button that launches image adding form"></button>
+      </section>
 
-      <!-- Popup to Add Card -->
-      <div class="popup popup_type_add">
-        <div class="popup__modal popup__modal_type_form">
-          <button
-            class="popup__close popup__close_type_add"
-            title="button that closes form"
-          ></button>
-          <h2 class="content-title">Add Place</h2>
-          <form class="form form_type_add" novalidate>
-            <fieldset class="form__set">
-              <label class="form__label" for="title-input">
-                <input
-                  type="text"
-                  class="form__input form__input_title"
-                  id="title-input"
-                  name="title-input"
-                  placeholder="Title"
-                  required
-                  minlength="1"
-                  maxlength="30"
-                  aria-describedby="title-input-error"
-                />
-                <span class="form__input-error" id="title-input-error"></span>
-              </label>
-              <label class="form__label" for="url-input">
-                <input
-                  type="url"
-                  class="form__input form__input_url"
-                  id="url-input"
-                  name="url-input"
-                  placeholder="Image URL"
-                  required
-                  aria-describedby="url-input-error"
-                />
-                <span class="form__input-error" id="url-input-error"></span>
-              </label>
-              <button class="button button_submit" type="submit">Create</button>
-            </fieldset>
-          </form>
-        </div>
-      </div>
+      <!-- Card gallery section with cards list -->
+      <section class="gallery">
+        <ul class="cards"></ul>
+      </section>
+    </main>
 
-      <!-- Popup to Delete Card -->
-      <div class="popup popup_type_delete">
-        <div class="popup__modal popup__modal_type_form">
-          <button
-            class="popup__close popup__close_type_delete"
-            title="button that closes form"
-          ></button>
-          <form class="form form_type_delete" action="#" novalidate>
-            <h2 class="content__title">Are you sure?</h2>
-            <button class="button button_submit" type="submit">Yes</button>
-          </form>
-        </div>
-      </div>
+    <footer class="footer">
+      <p class="footer__copyright">&copy; James Ryan 2021</p>
+    </footer>
 
-      <!-- Popup to Display Card Image-->
-      <div class="popup popup_type_image">
-        <div class="popup__modal popup__modal_type_image">
-          <button
-            class="popup__close popup__close_type_image"
-            title="button that closes form"
-          ></button>
-          <figure class="popup__figure">
-            <img src="" alt="" class="popup__image" />
-            <figcaption class="popup__caption"></figcaption>
-          </figure>
-        </div>
+    <!-- Popup to Edit User Info Section -->
+    <div class="popup popup_type_edit">
+      <div class="popup__modal popup__modal_type_form">
+        <button class="popup__close popup__close_type_edit" title="button that closes form"></button>
+        <h2 class="content-title">Edit profile</h2>
+        <form class="form form_type_edit" novalidate>
+          <fieldset class="form__set">
+            <label class="form__label" for="name-input">
+              <input type="text" class="form__input form__input_name" id="name-input" name="name-input"
+                placeholder="Name" required minlength="2" maxlength="40" pattern="[A-Za-z -]{2,}"
+                aria-describedby="name-input-error" />
+              <span class="form__input-error" id="name-input-error"></span>
+            </label>
+            <label class="form__label" for="job-input">
+              <input type="text" class="form__input form__input_job" id="job-input" name="job-input"
+                placeholder="About Me" required minlength="2" maxlength="200" aria-describedby="job-input-error" />
+              <span class="form__input-error" id="job-input-error"></span>
+            </label>
+            <button class="button button_submit" type="submit">Save</button>
+          </fieldset>
+        </form>
       </div>
-
-      <!-- Cards Template -->
-      <template class="card-template">
-        <li class="card">
-          <button
-            class="button button_trash"
-            title="button that deletes image"
-          ></button>
-          <img src="" alt="" class="card__image" />
-          <div class="card__content">
-            <div class="card__content_place_left">
-              <h3 class="card__title"></h3>
-            </div>
-            <div class="card__content_place_right">
-              <button
-                class="button button_heart"
-                title="button that likes image"
-              ></button>
-              <p class="card__likes">0</p>
-            </div>
-          </div>
-        </li>
-      </template>
     </div>
-  </body>
+
+    <!-- Popup to Edit User Avatar -->
+    <div class="popup popup_type_edit-avatar">
+      <div class="popup__modal popup__modal_type_form popup__modal_type_avatar">
+        <button class="popup__close popup__close_type_edit-avatar" title="button that closes form"></button>
+        <h2 class="content-title">Change User Avatar</h2>
+        <form class="form form_type_edit-avatar" action="#" name="edit-avatar">
+          <fieldset class="form__set">
+            <label class="form__label" for="avatar-input">
+              <input class="form__input form__input_avatar" name="avatar-input" id="avatar-input" type="url"
+                placeholder="Image Link" aria-describedby="avatar-input-error" required />
+              <span class="form__input-error" id="avatar-input-error"></span>
+            </label>
+            <button class="button button_submit" type="submit">Save</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+
+    <!-- Popup to Add Card -->
+    <div class="popup popup_type_add">
+      <div class="popup__modal popup__modal_type_form">
+        <button class="popup__close popup__close_type_add" title="button that closes form"></button>
+        <h2 class="content-title">Add Place</h2>
+        <form class="form form_type_add" novalidate>
+          <fieldset class="form__set">
+            <label class="form__label" for="title-input">
+              <input type="text" class="form__input form__input_title" id="title-input" name="title-input"
+                placeholder="Title" required minlength="1" maxlength="30" aria-describedby="title-input-error" />
+              <span class="form__input-error" id="title-input-error"></span>
+            </label>
+            <label class="form__label" for="url-input">
+              <input type="url" class="form__input form__input_url" id="url-input" name="url-input"
+                placeholder="Image Link" required aria-describedby="url-input-error" />
+              <span class="form__input-error" id="url-input-error"></span>
+            </label>
+            <button class="button button_submit" type="submit">Create</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+
+    <!-- Popup to Delete Card -->
+    <div class="popup popup_type_delete">
+      <div class="popup__modal popup__modal_type_form popup__modal_type_delete">
+        <button class="popup__close popup__close_type_delete" title="button that closes form"></button>
+        <form class="form form_type_delete" action="#" novalidate>
+          <h2 class="content__title">Are you sure?</h2>
+          <button class="button button_submit" type="submit">Yes</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Popup to Display Card Image-->
+    <div class="popup popup_type_image">
+      <div class="popup__modal popup__modal_type_image">
+        <button class="popup__close popup__close_type_image" title="button that closes form"></button>
+        <figure class="popup__figure">
+          <img src="" alt="" class="popup__image" />
+          <figcaption class="popup__caption"></figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- Cards Template -->
+    <template class="card-template">
+      <li class="card">
+        <button class="button button_trash" title="button that deletes image"></button>
+        <img src="" alt="" class="card__image" />
+        <div class="card__content">
+          <div class="card__content_place_left">
+            <h3 class="card__title"></h3>
+          </div>
+          <div class="card__content_place_right">
+            <button class="button button_heart" title="button that likes image"></button>
+            <p class="card__likes">0</p>
+          </div>
+        </div>
+      </li>
+    </template>
+  </div>
+</body>
+
 </html>

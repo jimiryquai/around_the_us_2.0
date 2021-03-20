@@ -3,6 +3,7 @@ import './index.css'; // add import of the main stylesheets file
 import {
   formConfig,
   cardConfig,
+  profileConfig,
   formList,
   buttonEdit,
   formInputName,
@@ -61,13 +62,6 @@ const cardRenderer = (cardInstance, userId) => {
     handleRemoveCard,
     userId
   );
-  // need to create another new Card instance or this will not work!!!
-  const handleRemoveCard = cardId =>
-    api.removeCard(cardId).then(cardItem => {
-      popupTypeDelete.close();
-      card.handleDeleteCard(cardItem._id);
-    });
-
   return card.generateCard();
 };
 
@@ -104,14 +98,32 @@ popupTypeImage.setEventListeners();
 
 const handleCardClick = data => popupTypeImage.open(data);
 
+// Remove card
+//need to move this into same scope as new Card instance or it will not work!!!
+// const handleRemoveCard = cardId =>
+//   api.removeCard(cardId).then(cardItem => {
+//     console.log('cardItem', cardItem);
+//     popupTypeDelete.close();
+//     cardItem.handleDeleteCard(cardItem._id);
+//   });
+
+const handleRemoveCard = cardId => {
+  popupTypeDelete.open(cardId);
+  cardId.handleDeleteCard(cardId._id);
+  api.removeCard(cardId).then(() => {
+    popupTypeDelete.close();
+  });
+};
+
 const popupTypeDelete = new PopupWithForm(
   '.popup_type_delete',
   handleRemoveCard
 );
 
 popupTypeDelete.setEventListeners();
+// End of card-related code
 
-// Edit User Info
+// Get & Edit User Info
 const userInfo = new UserInfo({
   nameSelector: '.profile__name',
   jobSelector: '.profile__job',
@@ -128,7 +140,7 @@ buttonEdit.addEventListener('click', handleGetUserInfo);
 
 const handleEditUserInfo = ({ 'name-input': name, 'job-input': about }) => {
   api
-    .editUserInfo({ name, about })
+    .setUserInfo({ name, about })
     .then(userProfile => {
       userInfo.setUserInfo({
         name: userProfile.name,
@@ -147,9 +159,40 @@ const popupEditUserInfo = new PopupWithForm(
 
 popupEditUserInfo.setEventListeners();
 
-buttonEdit.addEventListener('click', () => {
-  popupEditUserInfo.open();
-});
+document
+  .querySelector(profileConfig.buttonEditElement)
+  .addEventListener('click', () => {
+    popupEditUserInfo.open();
+  });
+
+const popupEditAvatar = new PopupWithForm(
+  '.popup_type_edit-avatar',
+  handleEditAvatar
+);
+
+popupEditAvatar.setEventListeners();
+
+const handleEditAvatar = ({ 'avatar-input': avatar }) => {
+  api
+    .setUserAvatar({
+      avatar,
+    })
+    .then(userAvatar => {
+      userInfo.setUserAvatar({
+        avatar: userAvatar.avatar,
+      });
+      popupEditAvatar.close();
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+document
+  .querySelector(profileConfig.buttonAvatarElement)
+  .addEventListener('click', () => {
+    popupEditAvatar.open();
+  });
 
 // Validate all forms
 formList.forEach(form => {

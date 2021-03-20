@@ -44,6 +44,12 @@ export const formInputName = document.querySelector('.form__input_name');
 export const formInputJob = document.querySelector('.form__input_job');
 export const formList = Array.from(document.querySelectorAll('.form'));
 
+export const profileConfig = {
+  buttonAddElement: '.button_add',
+  buttonEditElement: '.button_edit',
+  buttonAvatarElement: '.button_avatar',
+};
+
 // Add cards
 export const buttonAdd = document.querySelector('.button_add');
 

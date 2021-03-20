@@ -65,7 +65,7 @@ class Api {
       .catch(err => console.log(err));
   }
 
-  editUserInfo({ name, about }) {
+  setUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
       method: 'PATCH',
@@ -80,7 +80,7 @@ class Api {
       .catch(err => console.log(err));
   }
 
-  editUserAvatar({ avatar }) {
+  setUserAvatar({ avatar }) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       headers: this._headers,
       method: 'PATCH',
