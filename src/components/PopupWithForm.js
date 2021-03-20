@@ -25,7 +25,6 @@ export default class PopupWithForm extends Popup {
     this._button.addEventListener('click', e => this.close(e));
     // It adds the submit event handler to the submit button.
     this._form.addEventListener('submit', e => {
-      debugger;
       this._handleFormSubmit(this._getInputValues(e));
       this.close();
     });

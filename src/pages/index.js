@@ -26,9 +26,7 @@ api
   .then(([cardsData, userData]) => {
     const userId = userData._id;
 
-    cardsData.forEach(cardItem =>
-      cardList.addItem(cardRenderer(cardItem, userId))
-    );
+    cardsData.forEach(cardItem => cardList.addItem(addCard(cardItem, userId)));
 
     // Get user info from server
     userInfo.setUserInfo({
@@ -52,9 +50,11 @@ const cardList = new Section(
   cardConfig.cardContainerElement
 );
 
+const handleCardClick = data => popupTypeImage.open(data);
+
 // Adding cards
 // Render a new card
-const cardRenderer = (cardInstance, userId) => {
+const addCard = (cardInstance, userId) => {
   const card = new Card(
     cardInstance,
     cardConfig.cardTemplateElement,
@@ -73,7 +73,7 @@ const handleAddCardFormSubmit = ({
   api
     .addCard({ name, link })
     .then(cardElement => {
-      cardList.addItem(cardRenderer(cardElement, cardElement.owner._id));
+      cardList.addItem(addCard(cardElement, cardElement.owner._id));
     })
     .catch(err => {
       console.log(err);
@@ -96,31 +96,28 @@ const popupTypeImage = new PopupWithImage('.popup_type_image');
 
 popupTypeImage.setEventListeners();
 
-const handleCardClick = data => popupTypeImage.open(data);
-
-// Remove card
-//need to move this into same scope as new Card instance or it will not work!!!
-// const handleRemoveCard = cardId =>
-//   api.removeCard(cardId).then(cardItem => {
-//     console.log('cardItem', cardItem);
-//     popupTypeDelete.close();
-//     cardItem.handleDeleteCard(cardItem._id);
-//   });
-
-const handleRemoveCard = cardId => {
-  popupTypeDelete.open(cardId);
-  cardId.handleDeleteCard(cardId._id);
-  api.removeCard(cardId).then(() => {
-    popupTypeDelete.close();
-  });
-};
-
 const popupTypeDelete = new PopupWithForm(
   '.popup_type_delete',
   handleRemoveCard
 );
 
+const handleRemoveCard = cardId => {
+  popupTypeDelete.open(cardId);
+};
+
 popupTypeDelete.setEventListeners();
+
+// const addCard = (function (cardInstance, userId) {
+//   const newCard = new Card(
+//     cardInstance,
+//     cardConfig.cardTemplateElement,
+//     handleCardClick,
+//     handleRemoveCard,
+//     userId
+//   );
+//   return newCard.generateCard();
+// })();
+
 // End of card-related code
 
 // Get & Edit User Info
@@ -165,13 +162,6 @@ document
     popupEditUserInfo.open();
   });
 
-const popupEditAvatar = new PopupWithForm(
-  '.popup_type_edit-avatar',
-  handleEditAvatar
-);
-
-popupEditAvatar.setEventListeners();
-
 const handleEditAvatar = ({ 'avatar-input': avatar }) => {
   api
     .setUserAvatar({
@@ -187,6 +177,13 @@ const handleEditAvatar = ({ 'avatar-input': avatar }) => {
       console.log(err);
     });
 };
+
+const popupEditAvatar = new PopupWithForm(
+  '.popup_type_edit-avatar',
+  handleEditAvatar
+);
+
+popupEditAvatar.setEventListeners();
 
 document
   .querySelector(profileConfig.buttonAvatarElement)
