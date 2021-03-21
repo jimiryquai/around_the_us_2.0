@@ -18,29 +18,6 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 
-api.getCardList().then(res => console.log(res));
-
-// Returns a Promise.all and loads cards and userData
-api
-  .getAppInfo()
-  .then(([cardsData, userData]) => {
-    const userId = userData._id;
-
-    cardsData.forEach(cardItem => cardList.addItem(addCard(cardItem, userId)));
-
-    // Get user info from server
-    userInfo.setUserInfo({
-      name: userData.name,
-      about: userData.about,
-    });
-    // Get user avatar from server
-    userInfo.setUserAvatar({ avatar: userData.avatar });
-  })
-  .catch(err => {
-    console.log(err);
-  });
-//End of promise all
-
 // Create instance of section class
 const cardList = new Section(
   {
@@ -50,19 +27,46 @@ const cardList = new Section(
   cardConfig.cardContainerElement
 );
 
-const handleCardClick = data => popupTypeImage.open(data);
+// Image Popup
+const popupTypeImage = new PopupWithImage('.popup_type_image');
 
-// Adding cards
-// Render a new card
+popupTypeImage.setEventListeners();
+
+// function handleRemoveCard(cardId) {
+//   api.removeCard(cardId).then(() => {
+//     cardList.removeItem(cardId);
+//     popupTypeDelete.close();
+//   });
+// }
+
+const popupTypeDelete = new PopupWithForm({
+  popupSelector: '.popup_type_delete',
+  handleRemoveCard: cardId => {
+    api.removeCard(cardId).then(() => {
+      cardList.removeItem(cardId);
+      this.close();
+    });
+  },
+});
+
+popupTypeDelete.setEventListeners();
+
+// Render a card
 const addCard = (cardInstance, userId) => {
-  const card = new Card(
-    cardInstance,
-    cardConfig.cardTemplateElement,
-    handleCardClick,
-    handleRemoveCard,
-    userId
+  const newCard = new Card(
+    {
+      data: cardInstance,
+      handleCardClick: cardData => {
+        popupTypeImage.open(cardData);
+      },
+      handleDeleteClick: cardId => {
+        popupTypeDelete.open(cardId);
+      },
+      userId,
+    },
+    cardConfig.cardTemplateElement
   );
-  return card.generateCard();
+  return newCard.generateCard();
 };
 
 // Add a new card
@@ -80,45 +84,16 @@ const handleAddCardFormSubmit = ({
     });
 };
 
-const popupAddCard = new PopupWithForm(
-  '.popup_type_add',
-  handleAddCardFormSubmit
-);
+const popupAddCard = new PopupWithForm({
+  popupSelector: '.popup_type_add',
+  handleAddCardFormSubmit,
+});
 
 popupAddCard.setEventListeners();
 
 buttonAdd.addEventListener('click', () => {
   popupAddCard.open();
 });
-
-// Card clicks/Image Popup
-const popupTypeImage = new PopupWithImage('.popup_type_image');
-
-popupTypeImage.setEventListeners();
-
-const popupTypeDelete = new PopupWithForm(
-  '.popup_type_delete',
-  handleRemoveCard
-);
-
-const handleRemoveCard = cardId => {
-  popupTypeDelete.open(cardId);
-};
-
-popupTypeDelete.setEventListeners();
-
-// const addCard = (function (cardInstance, userId) {
-//   const newCard = new Card(
-//     cardInstance,
-//     cardConfig.cardTemplateElement,
-//     handleCardClick,
-//     handleRemoveCard,
-//     userId
-//   );
-//   return newCard.generateCard();
-// })();
-
-// End of card-related code
 
 // Get & Edit User Info
 const userInfo = new UserInfo({
@@ -149,10 +124,10 @@ const handleEditUserInfo = ({ 'name-input': name, 'job-input': about }) => {
     });
 };
 
-const popupEditUserInfo = new PopupWithForm(
-  '.popup_type_edit',
-  handleEditUserInfo
-);
+const popupEditUserInfo = new PopupWithForm({
+  popupSelector: '.popup_type_edit',
+  handleEditUserInfo,
+});
 
 popupEditUserInfo.setEventListeners();
 
@@ -178,10 +153,10 @@ const handleEditAvatar = ({ 'avatar-input': avatar }) => {
     });
 };
 
-const popupEditAvatar = new PopupWithForm(
-  '.popup_type_edit-avatar',
-  handleEditAvatar
-);
+const popupEditAvatar = new PopupWithForm({
+  popupSelector: '.popup_type_edit-avatar',
+  handleEditAvatar,
+});
 
 popupEditAvatar.setEventListeners();
 
@@ -191,8 +166,26 @@ document
     popupEditAvatar.open();
   });
 
-// Validate all forms
+// Validates all forms
 formList.forEach(form => {
   form = new FormValidator(formConfig, formConfig.formElement);
   form.enableValidation();
 });
+
+// Returns a Promise.all and loads cards and userData
+api
+  .getAppInfo()
+  .then(([cardsData, userData]) => {
+    const userId = userData._id;
+    // Get user info from server
+    userInfo.setUserInfo({
+      name: userData.name,
+      about: userData.about,
+    });
+    // Get user avatar from server
+    userInfo.setUserAvatar({ avatar: userData.avatar });
+    cardsData.forEach(cardItem => cardList.addItem(addCard(cardItem, userId)));
+  })
+  .catch(err => {
+    console.log(err);
+  });

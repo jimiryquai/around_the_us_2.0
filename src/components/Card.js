@@ -1,7 +1,10 @@
 import { cardConfig } from '../utils/constants.js';
 
 export default class Card {
-  constructor(data, cardTemplate, handleCardClick, handleRemoveCard, userId) {
+  constructor(
+    { data, handleCardClick, handleDeleteClick, userId },
+    cardTemplate
+  ) {
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
@@ -10,7 +13,7 @@ export default class Card {
     this._user = userId;
     this._cardTemplate = cardTemplate;
     this._handleCardClick = handleCardClick;
-    this._handleRemoveCard = handleRemoveCard;
+    this._handleDeleteClick = handleDeleteClick;
   }
 
   _getTemplate() {
@@ -47,8 +50,9 @@ export default class Card {
     return this._element;
   }
 
-  handleDeleteCard() {
+  removeCard() {
     this._element.remove();
+    this._element = null;
   }
 
   _handleLikeCard(e) {
@@ -67,7 +71,7 @@ export default class Card {
     this._element
       .querySelector(cardConfig.cardDeleteElement)
       .addEventListener('click', () => {
-        this._handleRemoveCard(this._id);
+        this._handleDeleteClick(this._id);
       });
 
     this._element
