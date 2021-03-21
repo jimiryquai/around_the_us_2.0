@@ -32,19 +32,14 @@ const popupTypeImage = new PopupWithImage('.popup_type_image');
 
 popupTypeImage.setEventListeners();
 
-// function handleRemoveCard(cardId) {
-//   api.removeCard(cardId).then(() => {
-//     cardList.removeItem(cardId);
-//     popupTypeDelete.close();
-//   });
-// }
-
 const popupTypeDelete = new PopupWithForm({
   popupSelector: '.popup_type_delete',
-  handleRemoveCard: cardId => {
-    api.removeCard(cardId).then(() => {
-      cardList.removeItem(cardId);
-      this.close();
+  handleFormSubmit: card => {
+    api.removeCard(card._id).then(() => {
+      debugger;
+      cardList.removeItem(card);
+      popupTypeDelete.close();
+      location.reload();
     });
   },
 });
@@ -59,8 +54,8 @@ const addCard = (cardInstance, userId) => {
       handleCardClick: cardData => {
         popupTypeImage.open(cardData);
       },
-      handleDeleteClick: cardId => {
-        popupTypeDelete.open(cardId);
+      handleDeleteClick: card => {
+        popupTypeDelete.open(card);
       },
       userId,
     },
@@ -78,6 +73,7 @@ const handleAddCardFormSubmit = ({
     .addCard({ name, link })
     .then(cardElement => {
       cardList.addItem(addCard(cardElement, cardElement.owner._id));
+      location.reload();
     })
     .catch(err => {
       console.log(err);
@@ -86,7 +82,7 @@ const handleAddCardFormSubmit = ({
 
 const popupAddCard = new PopupWithForm({
   popupSelector: '.popup_type_add',
-  handleAddCardFormSubmit,
+  handleFormSubmit: handleAddCardFormSubmit,
 });
 
 popupAddCard.setEventListeners();
@@ -126,7 +122,7 @@ const handleEditUserInfo = ({ 'name-input': name, 'job-input': about }) => {
 
 const popupEditUserInfo = new PopupWithForm({
   popupSelector: '.popup_type_edit',
-  handleEditUserInfo,
+  handleFormSubmit: handleEditUserInfo,
 });
 
 popupEditUserInfo.setEventListeners();
@@ -189,3 +185,5 @@ api
   .catch(err => {
     console.log(err);
   });
+
+api.getCardList().then(res => console.log(res));

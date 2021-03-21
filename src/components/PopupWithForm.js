@@ -9,7 +9,14 @@ export default class PopupWithForm extends Popup {
   }
   // It stores a private method named _getInputValues(), which collects data from all the input fields.
   _getInputValues() {
-    return Object.fromEntries(new FormData(this._form));
+    const formData = Object.fromEntries(new FormData(this._form));
+    return formData;
+  }
+
+  open(data) {
+    // passes card data to popupTypeDelete
+    this.data = data;
+    super.open();
   }
 
   close() {
@@ -25,7 +32,10 @@ export default class PopupWithForm extends Popup {
     this._button.addEventListener('click', e => this.close(e));
     // It adds the submit event handler to the submit button.
     this._form.addEventListener('submit', e => {
-      this._handleFormSubmit(this._getInputValues(e));
+      const obj = this._getInputValues(e);
+      obj.hasOwnProperty('name-input') || obj.hasOwnProperty('title-input')
+        ? this._handleFormSubmit(this._getInputValues(e))
+        : this._handleFormSubmit(this.data);
       this.close();
     });
   }
